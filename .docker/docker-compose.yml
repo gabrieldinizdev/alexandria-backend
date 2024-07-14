@@ -1,0 +1,15 @@
+name: alexandria-db
+
+services:
+  db:
+    container_name: mongodb
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - '27017:27017'
+    expose:
+      - '27017'
+    volumes:
+      - ./db:/data
