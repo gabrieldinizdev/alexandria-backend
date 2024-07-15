@@ -4,9 +4,10 @@ import {
   Query,
   Post,
   Body,
-  Put,
   Param,
   Delete,
+  HttpStatus,
+  Patch,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
@@ -34,7 +35,7 @@ export class UsersController {
     description: 'Get User by ID',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'User response object',
     type: SearchedUserResponse,
   })
@@ -47,41 +48,41 @@ export class UsersController {
     description: 'Create User with required fields',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.CREATED,
     description: 'User response object',
     type: CreatedUserResponse,
   })
   @Post()
   public async create(@Body() createUserDTO: CreateUserDTO) {
-    return await this.usersService.create(createUserDTO);
+    return await this.usersService.createOne(createUserDTO);
   }
 
   @ApiOperation({
     description: 'Update User with required fields',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'User response object',
     type: UpdatedUserResponse,
   })
-  @Put(':userId')
+  @Patch(':userId')
   public async update(
     @Param('userId') userId: string,
     @Body() createUserDTO: UpdateUserDTO,
   ) {
-    return await this.usersService.update(userId, createUserDTO);
+    return await this.usersService.updateOne(userId, createUserDTO);
   }
 
   @ApiOperation({
     description: 'Delete User by ID',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'User response object',
     type: DeletedUserResponse,
   })
   @Delete(':userId')
   public async delete(@Param('userId') userId: string) {
-    return await this.usersService.delete(userId);
+    return await this.usersService.softDeleteOne(userId);
   }
 }

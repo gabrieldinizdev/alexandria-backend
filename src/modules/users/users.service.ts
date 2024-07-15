@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import * as bcrypt from 'bcrypt';
+
 import { PaginationMetaDTO } from '@/shared/dto/pagination/pagination-meta.dto';
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
 import { PaginationDTO } from '@/shared/dto/pagination/pagination.dto';
@@ -10,6 +12,14 @@ import { CreateUserDTO } from './dtos/create-user.dto';
 @Injectable()
 export class UsersService {
   public constructor(private readonly prismaService: PrismaService) {}
+
+  private async hashPassword(password: string) {
+    const rounds = 10;
+    const salt = await bcrypt.genSalt(rounds);
+    const hash = await bcrypt.hash(password, salt);
+
+    return hash;
+  }
 
   public async findAll({
     pagination: { page, size } = {},
@@ -45,7 +55,12 @@ export class UsersService {
         id,
       },
       select: {
-        password: false,
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
       },
     });
 
@@ -54,13 +69,15 @@ export class UsersService {
     };
   }
 
-  public async create(dto: CreateUserDTO) {
+  public async createOne(dto: CreateUserDTO) {
     const { email, password, name } = dto;
+
+    const hashedPassword = await this.hashPassword(password);
 
     const data = await this.prismaService.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,
         name,
       },
     });
@@ -70,8 +87,10 @@ export class UsersService {
     };
   }
 
-  public async update(id: string, dto: CreateUserDTO) {
+  public async updateOne(id: string, dto: CreateUserDTO) {
     const { email, password, name } = dto;
+
+    const hashedPassword = await this.hashPassword(password);
 
     const data = await this.prismaService.user.update({
       where: {
@@ -79,7 +98,7 @@ export class UsersService {
       },
       data: {
         email,
-        password,
+        password: hashedPassword,
         name,
       },
     });
@@ -89,10 +108,13 @@ export class UsersService {
     };
   }
 
-  public async delete(id: string) {
-    const data = await this.prismaService.user.delete({
+  public async softDeleteOne(id: string) {
+    const data = await this.prismaService.user.update({
       where: {
         id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
 
