@@ -6,6 +6,16 @@ An Application to
 
 ## Installation
 
+On the first use of application, we need create the docker container. Run the following:
+
+```bash
+npm run exec:start-replicas
+```
+
+> if you get an error, like "permission denied", just run
+>
+> `chmod 777 -R .docker`
+
 Before init the application, add `.env` file to root folder copying from `.env.example` file
 
 Now, pull db changes:
