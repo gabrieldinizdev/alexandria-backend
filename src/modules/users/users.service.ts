@@ -8,20 +8,20 @@ import { CreateUserDTO } from './dtos/create-user.dto';
 export class UsersService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  //   public findAll({
-  //     pagination: { page, size } = {},
-  //   }: {
-  //     pagination: PaginationOptionsDTO;
-  //   }) {
+  // public findAll({
+  //   pagination: { page, size } = {},
+  // }: {
+  //   pagination: PaginationOptionsDTO;
+  // }) {
 
-  //     const total = await this.userModel.countDocuments(query);
+  //   const total = await this.userModel.countDocuments(query);
 
-  //     this.prismaService.user.findMany({
-  //       skip: page * size,
-  //       take: size,
-  //     },);
+  //   this.prismaService.user.findMany({
+  //     skip: page * size,
+  //     take: size,
+  //   },);
 
-  //   }
+  // }
 
   public create(dto: CreateUserDTO) {
     const { email, password, name } = dto;
