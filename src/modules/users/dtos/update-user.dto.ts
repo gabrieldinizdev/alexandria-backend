@@ -1,9 +1,7 @@
-import { PickType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 
 import { UserDTO } from './user.dto';
 
-export class UpdateUserDTO extends PickType(UserDTO, [
-  'email',
-  'password',
-  'name',
-] as const) {}
+export class UpdateUserDTO extends PartialType(
+  OmitType(UserDTO, ['id', 'createdAt', 'updatedAt', 'deletedAt']),
+) {}

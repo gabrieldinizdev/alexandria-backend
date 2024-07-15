@@ -9,35 +9,47 @@ import {
   HttpStatus,
   Patch,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
 
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
 import {
-  CreatedUserResponse,
-  DeletedUserResponse,
-  SearchedUserResponse,
-  UpdatedUserResponse,
+  CreatedOneUserResponseDTO,
+  DeletedOneUserResponseDTO,
+  FoundAllUserResponseDTO,
+  FoundOneUserResponseDTO,
+  UpdatedOneUserResponseDTO,
 } from './responses';
 import { UsersService } from './users.service';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({
+    summary: 'Find All',
+    description: 'This request find all users',
+  })
+  @ApiResponse({
+    description: 'find all user response',
+    type: FoundAllUserResponseDTO,
+    status: HttpStatus.OK,
+  })
   @Get()
-  public findAll(@Query() pagination: PaginationOptionsDTO) {
-    return this.usersService.findAll({ pagination });
+  public async findAll(@Query() pagination: PaginationOptionsDTO) {
+    return await this.usersService.findAll({ pagination });
   }
 
   @ApiOperation({
     description: 'Get User by ID',
+    summary: 'Find One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User response object',
-    type: SearchedUserResponse,
+    type: FoundOneUserResponseDTO,
   })
   @Get(':userId')
   public async findOne(@Param('userId') userId: string) {
@@ -46,11 +58,12 @@ export class UsersController {
 
   @ApiOperation({
     description: 'Create User with required fields',
+    summary: 'Create One',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User response object',
-    type: CreatedUserResponse,
+    type: CreatedOneUserResponseDTO,
   })
   @Post()
   public async create(@Body() createUserDTO: CreateUserDTO) {
@@ -59,11 +72,12 @@ export class UsersController {
 
   @ApiOperation({
     description: 'Update User with required fields',
+    summary: 'Update One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User response object',
-    type: UpdatedUserResponse,
+    type: UpdatedOneUserResponseDTO,
   })
   @Patch(':userId')
   public async update(
@@ -75,11 +89,12 @@ export class UsersController {
 
   @ApiOperation({
     description: 'Delete User by ID',
+    summary: 'Delete One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User response object',
-    type: DeletedUserResponse,
+    type: DeletedOneUserResponseDTO,
   })
   @Delete(':userId')
   public async delete(@Param('userId') userId: string) {

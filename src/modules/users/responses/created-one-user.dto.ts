@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { UserStub } from '@/stubs';
 
-export class CreatedUserResponse {
+export class CreatedOneUserResponseDTO {
   @ApiProperty({
     example: UserStub,
   })

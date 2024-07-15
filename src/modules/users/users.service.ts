@@ -7,7 +7,8 @@ import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options
 import { PaginationDTO } from '@/shared/dto/pagination/pagination.dto';
 import { PrismaService } from '@/shared/prisma';
 
-import { CreateUserDTO } from './dtos/create-user.dto';
+import { UpdateUserDTO } from './dtos';
+import { CreateUserDTO } from './dtos/create-one-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -22,23 +23,32 @@ export class UsersService {
   }
 
   public async findAll({
-    pagination: { page, size } = {},
+    pagination: { page = 1, size = 5 },
   }: {
     pagination: PaginationOptionsDTO;
   }) {
     const total = await this.prismaService.user.count({
       where: {
-        deletedAt: {
-          not: null,
-        },
+        deletedAt: null,
       },
     });
 
+    page = +page;
+    size = +size;
+
     const data = await this.prismaService.user.findMany({
-      skip: page * size,
+      skip: (page - 1) * size,
       take: size,
       select: {
-        password: false,
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+      },
+      where: {
+        deletedAt: null,
       },
     });
 
@@ -87,10 +97,14 @@ export class UsersService {
     };
   }
 
-  public async updateOne(id: string, dto: CreateUserDTO) {
+  public async updateOne(id: string, dto: UpdateUserDTO) {
     const { email, password, name } = dto;
 
-    const hashedPassword = await this.hashPassword(password);
+    let hashedPassword = undefined;
+
+    if (password) {
+      hashedPassword = await this.hashPassword(password);
+    }
 
     const data = await this.prismaService.user.update({
       where: {
