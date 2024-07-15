@@ -1,15 +1,48 @@
 name: alexandria-db
 
 services:
-  db:
-    container_name: mongodb
-    image: mongo:7
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=admin
+  REPL-01:
+    container_name: repl-01
+    hostname: mongo1
+    image: 'mongo:7'
     ports:
-      - '27017:27017'
-    expose:
-      - '27017'
+      - 3010:3010
+    restart: no
+    command: mongod --port 3010 --bind_ip_all --replSet rset
+    env_file:
+      - ./../.env
+    networks:
+      - custom-network
     volumes:
-      - ./db:/data
+      - ./scripts/mongo/:/scripts/mongo/
+
+  REPL-02:
+    container_name: repl-02
+    hostname: mongo2
+    image: 'mongo:7'
+    ports:
+      - 3011:3011
+    restart: no
+    command: mongod --port 3011 --bind_ip_all --replSet rset
+    env_file:
+      - ./../.env
+    networks:
+      - custom-network
+
+  REPL-03:
+    container_name: repl-03
+    hostname: mongo3
+    image: 'mongo:7'
+    ports:
+      - 3012:3012
+    restart: no
+    command: mongod --port 3012 --bind_ip_all --replSet rset
+    env_file:
+      - ./../.env
+    networks:
+      - custom-network
+
+networks:
+  custom-network:
+    driver: bridge
+    name: alexandria-network
