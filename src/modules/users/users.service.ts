@@ -27,10 +27,11 @@ export class UsersService {
   }: {
     pagination: PaginationOptionsDTO;
   }) {
+    const filter = {
+      OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
+    };
     const total = await this.prismaService.user.count({
-      where: {
-        deletedAt: null,
-      },
+      where: filter,
     });
 
     page = +page;
@@ -47,9 +48,7 @@ export class UsersService {
         updatedAt: true,
         deletedAt: true,
       },
-      where: {
-        deletedAt: null,
-      },
+      where: filter,
     });
 
     const meta = new PaginationMetaDTO({ page, size, total });
