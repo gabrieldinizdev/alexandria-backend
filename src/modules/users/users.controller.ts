@@ -8,12 +8,10 @@ import {
   Delete,
   HttpStatus,
   Patch,
-  UseFilters,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
-import { PrismaClientExceptionFilter } from '@/shared/filters/prisma-client-exception/prisma-client-exception.filter';
 
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
 import { FindOneUserDTO } from './dtos/find-one-user.dto';
@@ -28,7 +26,6 @@ import { UsersService } from './users.service';
 
 @ApiTags('users')
 @Controller('users')
-@UseFilters(PrismaClientExceptionFilter)
 export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
