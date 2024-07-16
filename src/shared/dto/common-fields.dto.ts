@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 
 export class CommonFieldsDTO {
-  @IsString()
+  @IsMongoId()
   @IsNotEmpty()
   @ApiProperty({
     description: 'id',

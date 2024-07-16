@@ -14,6 +14,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
 
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
+import { FindOneUserDTO } from './dtos/find-one-user.dto';
 import {
   CreatedOneUserResponseDTO,
   DeletedOneUserResponseDTO,
@@ -51,9 +52,9 @@ export class UsersController {
     description: 'User response object',
     type: FoundOneUserResponseDTO,
   })
-  @Get(':userId')
-  public async findOne(@Param('userId') userId: string) {
-    return await this.usersService.findOne(userId);
+  @Get(':id')
+  public async findOne(@Param() { id }: FindOneUserDTO) {
+    return await this.usersService.findOne(id);
   }
 
   @ApiOperation({
@@ -79,12 +80,12 @@ export class UsersController {
     description: 'User response object',
     type: UpdatedOneUserResponseDTO,
   })
-  @Patch(':userId')
+  @Patch(':id')
   public async update(
-    @Param('userId') userId: string,
-    @Body() createUserDTO: UpdateUserDTO,
+    @Param() { id }: FindOneUserDTO,
+    @Body() updateUserDTO: UpdateUserDTO,
   ) {
-    return await this.usersService.updateOne(userId, createUserDTO);
+    return await this.usersService.updateOne(id, updateUserDTO);
   }
 
   @ApiOperation({
@@ -96,8 +97,8 @@ export class UsersController {
     description: 'User response object',
     type: DeletedOneUserResponseDTO,
   })
-  @Delete(':userId')
-  public async delete(@Param('userId') userId: string) {
-    return await this.usersService.softDeleteOne(userId);
+  @Delete(':id')
+  public async delete(@Param() { id }: FindOneUserDTO) {
+    return await this.usersService.softDeleteOne(id);
   }
 }

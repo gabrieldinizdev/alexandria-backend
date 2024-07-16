@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
 
@@ -72,7 +72,7 @@ export class UsersService {
         deletedAt: true,
       },
     });
-
+    if (!data) throw new NotFoundException('Usuário não encontrado.');
     return {
       data,
     };
@@ -80,7 +80,6 @@ export class UsersService {
 
   public async createOne(dto: CreateUserDTO) {
     const { email, password, name } = dto;
-
     const hashedPassword = await this.hashPassword(password);
 
     const data = await this.prismaService.user.create({
