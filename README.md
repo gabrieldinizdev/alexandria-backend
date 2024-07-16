@@ -18,10 +18,10 @@ npm run exec:start-replicas
 
 Before init the application, add `.env` file to root folder copying from `.env.example` file
 
-Now, pull db changes:
+Now, generate schema changes:
 
 ```bash
-npm run prisma:pull
+npm run prisma:generate
 ```
 
 ```bash
