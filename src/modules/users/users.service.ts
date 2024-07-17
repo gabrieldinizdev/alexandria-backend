@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-import { PaginationMetaDTO } from '@/shared/dto/pagination/pagination-meta.dto';
-import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
-import { PaginationDTO } from '@/shared/dto/pagination/pagination.dto';
+import {
+  PaginationDTO,
+  PaginationMetaDTO,
+  PaginationOptionsDTO,
+} from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
+import { SelectModelFieldsType } from '@/shared/types';
 
 import { UpdateUserDTO } from './dtos';
 import { CreateUserDTO } from './dtos/create-one-user.dto';
@@ -58,21 +62,34 @@ export class UsersService {
     return pagination;
   }
 
-  public async findOne(id: string) {
+  public async findOneById(id: string) {
     const data = await this.prismaService.user.findUnique({
       where: {
         id,
       },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true,
-      },
+      select: {},
     });
+
     if (!data) throw new NotFoundException('Usuário não encontrado.');
+
+    return {
+      data,
+    };
+  }
+
+  public async findOneByEmail(
+    email: string,
+    fields: SelectModelFieldsType<User>,
+  ) {
+    const data = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+      select: fields,
+    });
+
+    if (!data) throw new NotFoundException('Usuário não encontrado.');
+
     return {
       data,
     };

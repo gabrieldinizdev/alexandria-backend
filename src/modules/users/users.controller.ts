@@ -1,20 +1,31 @@
 import {
-  Controller,
-  Get,
-  Query,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpStatus,
+  Param,
   Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+
+import { User } from '@prisma/client';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
+import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import { SelectModelFieldsType } from '@/shared/types';
 
-import { CreateUserDTO, UpdateUserDTO } from './dtos';
-import { FindOneUserDTO } from './dtos/find-one-user.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import {
+  CreateUserDTO,
+  FindOneUserByEmailDTO,
+  SelectUserFieldsDTO,
+  UpdateUserDTO,
+} from './dtos';
+import { FindOneUserByIdDTO } from './dtos/find-one-user-by-id.dto';
 import {
   CreatedOneUserResponseDTO,
   DeletedOneUserResponseDTO,
@@ -38,6 +49,7 @@ export class UsersController {
     type: FoundAllUserResponseDTO,
     status: HttpStatus.OK,
   })
+  @UseGuards(AuthGuard)
   @Get()
   public async findAll(@Query() pagination: PaginationOptionsDTO) {
     return await this.usersService.findAll({ pagination });
@@ -53,8 +65,33 @@ export class UsersController {
     type: FoundOneUserResponseDTO,
   })
   @Get(':id')
-  public async findOne(@Param() { id }: FindOneUserDTO) {
-    return await this.usersService.findOne(id);
+  public async findOneById(
+    @Param() { id }: FindOneUserByIdDTO,
+    // @Query() { select }: SelectUserFieldsDTO,
+  ) {
+    return await this.usersService.findOneById(id);
+  }
+
+  @ApiOperation({
+    description: 'Get User by ID',
+    summary: 'Find One By Email',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User response object',
+    type: FoundOneUserResponseDTO,
+  })
+  @ApiQuery({
+    name: 'select',
+    type: SelectUserFieldsDTO,
+  })
+  @Get('email/:email')
+  public async findOneByEmail(
+    @Param() { email }: FindOneUserByEmailDTO,
+    @Query('select', new SelectFieldsPipe())
+    select: SelectModelFieldsType<User>,
+  ) {
+    return this.usersService.findOneByEmail(email, select);
   }
 
   @ApiOperation({
@@ -82,7 +119,7 @@ export class UsersController {
   })
   @Patch(':id')
   public async update(
-    @Param() { id }: FindOneUserDTO,
+    @Param() { id }: FindOneUserByIdDTO,
     @Body() updateUserDTO: UpdateUserDTO,
   ) {
     return await this.usersService.updateOne(id, updateUserDTO);
@@ -98,7 +135,7 @@ export class UsersController {
     type: DeletedOneUserResponseDTO,
   })
   @Delete(':id')
-  public async delete(@Param() { id }: FindOneUserDTO) {
+  public async delete(@Param() { id }: FindOneUserByIdDTO) {
     return await this.usersService.softDeleteOne(id);
   }
 }
