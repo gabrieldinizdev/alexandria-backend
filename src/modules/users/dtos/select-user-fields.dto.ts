@@ -3,8 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { IsBoolean } from 'class-validator';
 
-import { UserDTO } from './user.dto';
 import { SelectModelFieldsType } from '@/shared/types';
+
+import { UserDTO } from './user.dto';
 
 export class SelectUserFieldsDTO {
   @ApiProperty({
