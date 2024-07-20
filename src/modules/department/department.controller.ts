@@ -34,7 +34,7 @@ export class DepartmentController {
     type: CreatedOneDepartmentResponseDTO,
   })
   @Post()
-  public async Create(@Body() createDepartmentDTO: CreateDepartmentDTO) {
+  public async create(@Body() createDepartmentDTO: CreateDepartmentDTO) {
     return this.departmentService.createOne(createDepartmentDTO);
   }
 
@@ -48,7 +48,7 @@ export class DepartmentController {
     type: CreatedOneDepartmentResponseDTO,
   })
   @Get()
-  public async Findall() {
+  public async findall() {
     return this.departmentService.findAll();
   }
 
@@ -62,7 +62,7 @@ export class DepartmentController {
     type: CreatedOneDepartmentResponseDTO,
   })
   @Patch(':id')
-  public async Update(
+  public async update(
     @Body() updateDepartmentDTO: UpdateDepartmentDTO,
     @Param() { id }: FindDepartmentDTO,
   ) {
@@ -79,7 +79,7 @@ export class DepartmentController {
     type: DeletedOneDepartmentResponseDTO,
   })
   @Delete(':id')
-  public async Delete(@Param() { id }: FindDepartmentDTO) {
+  public async delete(@Param() { id }: FindDepartmentDTO) {
     return this.departmentService.softDeleteOne(id);
   }
 }
