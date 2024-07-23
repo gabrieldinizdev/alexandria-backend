@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { PaginationMetaDTO } from '@/shared/dto/pagination/pagination-meta.dto';
 
-import { UserDTO } from '../dtos';
+import { CustomerDTO } from '../dtos';
 
-export class FoundAllUserResponseDTO {
-  @ApiProperty({ type: UserDTO, isArray: true })
-  public readonly data: UserDTO[];
+export class FoundAllCustomerResponseDTO {
+  @ApiProperty({ type: CustomerDTO, isArray: true })
+  public readonly data: CustomerDTO[];
 
   @ApiProperty()
   public readonly meta: PaginationMetaDTO;

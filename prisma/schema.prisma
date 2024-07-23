@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Customer {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   email     String    @unique
   name      String
@@ -24,9 +24,20 @@ model User {
 }
 
 model Department {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   deletedAt DateTime?
+  Category  Category[]
+}
+
+model Category {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId String     @db.ObjectId
 }

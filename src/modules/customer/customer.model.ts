@@ -1,6 +1,6 @@
 import { CommonFields } from '@/shared/models/common.model';
 
-export class User extends CommonFields {
+export class Customer extends CommonFields {
   public readonly name: string;
 
   public readonly email: string;

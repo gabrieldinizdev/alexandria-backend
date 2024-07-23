@@ -7,25 +7,34 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+import { AuthGuard } from '../auth/auth.guard';
 import { DepartmentService } from './department.service';
 import {
   CreateDepartmentDTO,
-  FindDepartmentDTO,
+  FindOneDepartmentByIdDTO,
   UpdateDepartmentDTO,
 } from './dto';
 import { CreatedOneDepartmentResponseDTO } from './responses';
 import { DeletedOneDepartmentResponseDTO } from './responses/deleted-one-department.dto';
+import { FoundOneDepartmentResponseDTO } from './responses/found-one-department.dto';
 
+@ApiBearerAuth()
 @ApiTags('Department')
 @Controller('department')
 export class DepartmentController {
   public constructor(private readonly departmentService: DepartmentService) {}
 
   @ApiOperation({
-    description: 'Create Department with required fields',
+    description: 'Create department with required fields',
     summary: 'Create One',
   })
   @ApiResponse({
@@ -33,8 +42,9 @@ export class DepartmentController {
     description: 'Department response object',
     type: CreatedOneDepartmentResponseDTO,
   })
+  @UseGuards(AuthGuard)
   @Post()
-  public async create(@Body() createDepartmentDTO: CreateDepartmentDTO) {
+  public async createOne(@Body() createDepartmentDTO: CreateDepartmentDTO) {
     return this.departmentService.createOne(createDepartmentDTO);
   }
 
@@ -47,13 +57,29 @@ export class DepartmentController {
     description: 'Department response object',
     type: CreatedOneDepartmentResponseDTO,
   })
+  @UseGuards(AuthGuard)
   @Get()
   public async findall() {
     return this.departmentService.findAll();
   }
 
   @ApiOperation({
-    description: 'Update Departments',
+    description: 'Find one department by id',
+    summary: 'Find one by id',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Department response object',
+    type: FoundOneDepartmentResponseDTO,
+  })
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  public async FindOneById(@Param() { id }: FindOneDepartmentByIdDTO) {
+    return this.departmentService.findOneById(id);
+  }
+
+  @ApiOperation({
+    description: 'Update departments',
     summary: 'Update One',
   })
   @ApiResponse({
@@ -61,10 +87,11 @@ export class DepartmentController {
     description: 'Department response object',
     type: CreatedOneDepartmentResponseDTO,
   })
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  public async update(
+  public async updateOneById(
     @Body() updateDepartmentDTO: UpdateDepartmentDTO,
-    @Param() { id }: FindDepartmentDTO,
+    @Param() { id }: FindOneDepartmentByIdDTO,
   ) {
     return this.departmentService.updateOne(updateDepartmentDTO, id);
   }
@@ -78,8 +105,9 @@ export class DepartmentController {
     description: 'Department response object',
     type: DeletedOneDepartmentResponseDTO,
   })
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  public async delete(@Param() { id }: FindDepartmentDTO) {
+  public async softDeleteOne(@Param() { id }: FindOneDepartmentByIdDTO) {
     return this.departmentService.softDeleteOne(id);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { User } from '@prisma/client';
+import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 import {
@@ -11,11 +11,11 @@ import {
 import { PrismaService } from '@/shared/prisma';
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { UpdateUserDTO } from './dtos';
-import { CreateUserDTO } from './dtos/create-one-user.dto';
+import { UpdateCustomerDTO } from './dtos';
+import { CreateCustomerDTO } from './dtos/create-one-customer.dto';
 
 @Injectable()
-export class UsersService {
+export class CustomersService {
   public constructor(private readonly prismaService: PrismaService) {}
 
   private async hashPassword(password: string) {
@@ -26,32 +26,28 @@ export class UsersService {
     return hash;
   }
 
-  public async findAll({
-    pagination: { page = 1, size = 5 },
-  }: {
-    pagination: PaginationOptionsDTO;
-  }) {
+  public async findAll(
+    {
+      pagination: { page = 1, size = 5 },
+    }: {
+      pagination: PaginationOptionsDTO;
+    },
+    fields: SelectModelFieldsType<Customer>,
+  ) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
-    const total = await this.prismaService.user.count({
+    const total = await this.prismaService.customer.count({
       where: filter,
     });
 
     page = +page;
     size = +size;
 
-    const data = await this.prismaService.user.findMany({
+    const data = await this.prismaService.customer.findMany({
       skip: (page - 1) * size,
       take: size,
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true,
-      },
+      select: fields,
       where: filter,
     });
 
@@ -62,15 +58,18 @@ export class UsersService {
     return pagination;
   }
 
-  public async findOneById(id: string) {
-    const data = await this.prismaService.user.findUnique({
+  public async findOneById(
+    id: string,
+    fields: SelectModelFieldsType<Customer>,
+  ) {
+    const data = await this.prismaService.customer.findUnique({
       where: {
         id,
       },
-      select: {},
+      select: fields,
     });
 
-    if (!data) throw new NotFoundException('Usuário não encontrado.');
+    if (!data) throw new NotFoundException('Customer not found.');
 
     return {
       data,
@@ -79,27 +78,27 @@ export class UsersService {
 
   public async findOneByEmail(
     email: string,
-    fields: SelectModelFieldsType<User>,
+    fields: SelectModelFieldsType<Customer>,
   ) {
-    const data = await this.prismaService.user.findUnique({
+    const data = await this.prismaService.customer.findUnique({
       where: {
         email,
       },
       select: fields,
     });
 
-    if (!data) throw new NotFoundException('Usuário não encontrado.');
+    if (!data) throw new NotFoundException('customer not found.');
 
     return {
       data,
     };
   }
 
-  public async createOne(dto: CreateUserDTO) {
+  public async createOne(dto: CreateCustomerDTO) {
     const { email, password, name } = dto;
     const hashedPassword = await this.hashPassword(password);
 
-    const data = await this.prismaService.user.create({
+    const data = await this.prismaService.customer.create({
       data: {
         email,
         password: hashedPassword,
@@ -112,7 +111,7 @@ export class UsersService {
     };
   }
 
-  public async updateOne(id: string, dto: UpdateUserDTO) {
+  public async updateOne(id: string, dto: UpdateCustomerDTO) {
     const { email, password, name } = dto;
 
     let hashedPassword = undefined;
@@ -121,7 +120,7 @@ export class UsersService {
       hashedPassword = await this.hashPassword(password);
     }
 
-    const data = await this.prismaService.user.update({
+    const data = await this.prismaService.customer.update({
       where: {
         id,
       },
@@ -138,7 +137,7 @@ export class UsersService {
   }
 
   public async softDeleteOne(id: string) {
-    const data = await this.prismaService.user.update({
+    const data = await this.prismaService.customer.update({
       where: {
         id,
       },

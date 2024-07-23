@@ -8,7 +8,7 @@ import { CreateDepartmentDTO, UpdateDepartmentDTO } from './dto';
 export class DepartmentService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  async createOne(dto: CreateDepartmentDTO) {
+  public async createOne(dto: CreateDepartmentDTO) {
     const { name } = dto;
 
     const data = await this.prismaService.department.create({
@@ -19,7 +19,7 @@ export class DepartmentService {
     return { data };
   }
 
-  async findAll() {
+  public async findAll() {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
@@ -30,7 +30,16 @@ export class DepartmentService {
     return { data };
   }
 
-  async updateOne(dto: UpdateDepartmentDTO, id: string) {
+  public async findOneById(id: string) {
+    const data = await this.prismaService.department.findUnique({
+      where: {
+        id,
+      },
+    });
+    return { data };
+  }
+
+  public async updateOne(dto: UpdateDepartmentDTO, id: string) {
     const { name } = dto;
 
     const data = await this.prismaService.department.update({
@@ -44,7 +53,7 @@ export class DepartmentService {
     return { data };
   }
 
-  async softDeleteOne(id: string) {
+  public async softDeleteOne(id: string) {
     const data = await this.prismaService.department.update({
       where: {
         id,
