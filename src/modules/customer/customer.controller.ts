@@ -44,7 +44,7 @@ import {
 @ApiBearerAuth()
 @ApiTags('customers')
 @Controller('customers')
-export class UsersController {
+export class CustomersController {
   public constructor(private readonly customersService: CustomersService) {}
 
   @ApiOperation({
