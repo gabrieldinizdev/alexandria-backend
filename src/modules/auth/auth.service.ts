@@ -2,36 +2,36 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { User } from '@prisma/client';
+import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { UsersService } from '../users/users.service';
+import { CustomersService } from '../customer/customer.service';
 import { SignInDTO } from './dtos/sign-in.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly customerService: CustomersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
 
   public async signIn({ email, password }: SignInDTO) {
-    const select: SelectModelFieldsType<User> = {
+    const select: SelectModelFieldsType<Customer> = {
       name: true,
       email: true,
       password: true,
       createdAt: true,
       id: true,
     };
-    const { data: user } = await this.usersService.findOneByEmail(
+    const { data: customer } = await this.customerService.findOneByEmail(
       email,
       select,
     );
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, customer.password);
 
     if (!isMatch) {
       throw new UnauthorizedException('Credentials are invalid');
@@ -40,7 +40,7 @@ export class AuthService {
     const expiresIn = this.configService.get('JWT_EXPIRES_IN');
 
     const payload = {
-      ...user,
+      ...customer,
       expiresIn,
     };
 

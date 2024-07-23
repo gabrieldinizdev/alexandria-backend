@@ -13,7 +13,7 @@ class NewFindDepartmentDTO extends PickType(DepartmentDTO, ['id'] as const) {
   public readonly id: string;
 }
 
-export class FindDepartmentDTO extends IntersectionType(
+export class FindOneDepartmentByIdDTO extends IntersectionType(
   DefaultFindDepartmentDTO,
   NewFindDepartmentDTO,
 ) {}

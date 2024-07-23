@@ -2,9 +2,9 @@ import { PickType } from '@nestjs/swagger';
 
 import { IsNotEmpty } from 'class-validator';
 
-import { UserDTO } from './user.dto';
+import { CustomerDTO } from './customer.dto';
 
-export class CreateUserDTO extends PickType(UserDTO, [
+export class CreateCustomerDTO extends PickType(CustomerDTO, [
   'email',
   'password',
   'name',
