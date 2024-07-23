@@ -28,6 +28,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { CustomersService } from './customer.service';
 import {
   CreateCustomerDTO,
+  CustomerDTO,
   FindOneCustomerByEmailDTO,
   SelectFieldsDTO,
   UpdateCustomerDTO,
@@ -72,7 +73,7 @@ export class CustomersController {
   })
   @ApiQuery({
     name: 'select',
-    type: SelectFieldsDTO,
+    type: SelectFieldsDTO<CustomerDTO>,
   })
   @UseGuards(AuthGuard)
   @Get()
@@ -95,7 +96,7 @@ export class CustomersController {
   })
   @ApiQuery({
     name: 'select',
-    type: SelectFieldsDTO,
+    type: SelectFieldsDTO<CustomerDTO>,
   })
   @UseGuards(AuthGuard)
   @Get(':id')
@@ -118,7 +119,7 @@ export class CustomersController {
   })
   @ApiQuery({
     name: 'select',
-    type: SelectFieldsDTO,
+    type: SelectFieldsDTO<CustomerDTO>,
   })
   @UseGuards(AuthGuard)
   @Get('email/:email')

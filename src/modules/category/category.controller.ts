@@ -66,7 +66,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Get()
-  public async Findall(@Query() pagination: PaginationOptionsDTO) {
+  public async findall(@Query() pagination: PaginationOptionsDTO) {
     return this.categoryService.findAll({ pagination });
   }
 
@@ -81,7 +81,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Get(':id')
-  public async FindOneById(@Param() { id }: FindOneCategoryByIdDTO) {
+  public async findOneById(@Param() { id }: FindOneCategoryByIdDTO) {
     return this.categoryService.findOneById(id);
   }
 
@@ -96,7 +96,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
-  public async UpdateOneById(
+  public async updateOneById(
     @Param() { id }: FindOneCategoryByIdDTO,
     @Body() updateUserDTO: UpdateCategoryDTO,
   ) {

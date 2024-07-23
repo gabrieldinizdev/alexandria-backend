@@ -74,7 +74,7 @@ export class DepartmentController {
   })
   @UseGuards(AuthGuard)
   @Get(':id')
-  public async FindOneById(@Param() { id }: FindOneDepartmentByIdDTO) {
+  public async findOneById(@Param() { id }: FindOneDepartmentByIdDTO) {
     return this.departmentService.findOneById(id);
   }
 

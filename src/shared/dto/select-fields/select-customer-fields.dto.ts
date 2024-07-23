@@ -1,12 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CustomerDTO } from '../../../modules/customer/dtos/customer.dto';
-
-export class SelectFieldsDTO {
+export class SelectFieldsDTO<Model> {
   @ApiProperty({
     required: false,
     type: String,
     isArray: true,
   })
-  public readonly select?: (keyof CustomerDTO)[];
+  public readonly select?: (keyof Model)[];
 }
