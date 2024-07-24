@@ -22,9 +22,9 @@ import { PaginationOptionsDTO } from '@/shared/dto/pagination';
 import { AuthGuard } from '../auth/auth.guard';
 import { CategoryService } from './category.service';
 import {
-  CreateCategoryDTO,
+  CreateOneCategoryDTO,
   FindOneCategoryByIdDTO,
-  UpdateCategoryDTO,
+  UpdateOneCategoryByIdDTO,
 } from './dtos';
 import {
   CreatedOneCategoryResponseDTO,
@@ -51,7 +51,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Post()
-  public async createOne(@Body() createCategoryDTO: CreateCategoryDTO) {
+  public async createOne(@Body() createCategoryDTO: CreateOneCategoryDTO) {
     return this.categoryService.createOne(createCategoryDTO);
   }
 
@@ -98,7 +98,7 @@ export class CategoryController {
   @Patch(':id')
   public async updateOneById(
     @Param() { id }: FindOneCategoryByIdDTO,
-    @Body() updateUserDTO: UpdateCategoryDTO,
+    @Body() updateUserDTO: UpdateOneCategoryByIdDTO,
   ) {
     return this.categoryService.updateOneById(id, updateUserDTO);
   }

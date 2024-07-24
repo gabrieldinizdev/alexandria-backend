@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -16,16 +17,22 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { PaginationOptionsDTO } from '@/shared/dto/pagination';
+
 import { AuthGuard } from '../auth/auth.guard';
 import { DepartmentService } from './department.service';
 import {
-  CreateDepartmentDTO,
+  CreateOneDepartmentDTO,
   FindOneDepartmentByIdDTO,
-  UpdateDepartmentDTO,
+  UpdateOneDepartmentByIdDTO,
 } from './dto';
-import { CreatedOneDepartmentResponseDTO } from './responses';
-import { DeletedOneDepartmentResponseDTO } from './responses/deleted-one-department.dto';
-import { FoundOneDepartmentResponseDTO } from './responses/found-one-department.dto';
+import {
+  CreatedOneDepartmentResponseDTO,
+  DeletedOneDepartmentResponseDTO,
+  FoundAllDepartmentResponseDTO,
+  FoundOneDepartmentResponseDTO,
+  UpdatedOneDepartmentResponseDTO,
+} from './responses';
 
 @ApiBearerAuth()
 @ApiTags('Department')
@@ -44,7 +51,7 @@ export class DepartmentController {
   })
   @UseGuards(AuthGuard)
   @Post()
-  public async createOne(@Body() createDepartmentDTO: CreateDepartmentDTO) {
+  public async createOne(@Body() createDepartmentDTO: CreateOneDepartmentDTO) {
     return this.departmentService.createOne(createDepartmentDTO);
   }
 
@@ -55,12 +62,12 @@ export class DepartmentController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Department response object',
-    type: CreatedOneDepartmentResponseDTO,
+    type: FoundAllDepartmentResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Get()
-  public async findall() {
-    return this.departmentService.findAll();
+  public async findall(@Query() pagination: PaginationOptionsDTO) {
+    return this.departmentService.findAll({ pagination });
   }
 
   @ApiOperation({
@@ -85,12 +92,12 @@ export class DepartmentController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Department response object',
-    type: CreatedOneDepartmentResponseDTO,
+    type: UpdatedOneDepartmentResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
   public async updateOneById(
-    @Body() updateDepartmentDTO: UpdateDepartmentDTO,
+    @Body() updateDepartmentDTO: UpdateOneDepartmentByIdDTO,
     @Param() { id }: FindOneDepartmentByIdDTO,
   ) {
     return this.departmentService.updateOne(updateDepartmentDTO, id);

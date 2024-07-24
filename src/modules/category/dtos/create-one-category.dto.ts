@@ -19,7 +19,7 @@ class NewCreateCategoryDTO extends PickType(CategoryDTO, [
   public readonly departmentId: string;
 }
 
-export class CreateCategoryDTO extends IntersectionType(
+export class CreateOneCategoryDTO extends IntersectionType(
   DefaultCreatedCategoryDTO,
   NewCreateCategoryDTO,
 ) {}

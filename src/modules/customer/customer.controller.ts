@@ -27,11 +27,11 @@ import { SelectModelFieldsType } from '@/shared/types';
 import { AuthGuard } from '../auth/auth.guard';
 import { CustomersService } from './customer.service';
 import {
-  CreateCustomerDTO,
+  CreateOneCustomerDTO,
   CustomerDTO,
   FindOneCustomerByEmailDTO,
   SelectFieldsDTO,
-  UpdateCustomerDTO,
+  UpdateOneCustomerByIdDTO,
 } from './dtos';
 import { FindOneCustomerByIdDTO } from './dtos/find-one-customer-by-id.dto';
 import {
@@ -58,7 +58,7 @@ export class CustomersController {
     type: CreatedOneCustomerResponseDTO,
   })
   @Post()
-  public async createOne(@Body() createUserDTO: CreateCustomerDTO) {
+  public async createOne(@Body() createUserDTO: CreateOneCustomerDTO) {
     return await this.customersService.createOne(createUserDTO);
   }
 
@@ -144,7 +144,7 @@ export class CustomersController {
   @Patch(':id')
   public async updateOneById(
     @Param() { id }: FindOneCustomerByIdDTO,
-    @Body() updateUserDTO: UpdateCustomerDTO,
+    @Body() updateUserDTO: UpdateOneCustomerByIdDTO,
   ) {
     return await this.customersService.updateOne(id, updateUserDTO);
   }

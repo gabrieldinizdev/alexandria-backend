@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 
+import {
+  PaginationDTO,
+  PaginationMetaDTO,
+  PaginationOptionsDTO,
+} from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
 
-import { CreateDepartmentDTO, UpdateDepartmentDTO } from './dto';
+import { CreateOneDepartmentDTO, UpdateOneDepartmentByIdDTO } from './dto';
 
 @Injectable()
 export class DepartmentService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async createOne(dto: CreateDepartmentDTO) {
+  public async createOne(dto: CreateOneDepartmentDTO) {
     const { name } = dto;
 
     const data = await this.prismaService.department.create({
@@ -19,15 +24,32 @@ export class DepartmentService {
     return { data };
   }
 
-  public async findAll() {
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+  }: {
+    pagination: PaginationOptionsDTO;
+  }) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
-    const data = await this.prismaService.department.findMany({
+    const total = await this.prismaService.department.count({
       where: filter,
     });
 
-    return { data };
+    page = +page;
+    size = +size;
+
+    const data = await this.prismaService.department.findMany({
+      skip: (page - 1) * size,
+      take: size,
+      where: filter,
+    });
+
+    const meta = new PaginationMetaDTO({ page, size, total });
+
+    const pagination = new PaginationDTO(data, meta);
+
+    return pagination;
   }
 
   public async findOneById(id: string) {
@@ -39,7 +61,7 @@ export class DepartmentService {
     return { data };
   }
 
-  public async updateOne(dto: UpdateDepartmentDTO, id: string) {
+  public async updateOne(dto: UpdateOneDepartmentByIdDTO, id: string) {
     const { name } = dto;
 
     const data = await this.prismaService.department.update({

@@ -7,14 +7,14 @@ import {
 } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
 
-import { CreateCategoryDTO } from './dtos';
-import { UpdateCategoryDTO } from './dtos/update-one-category-by-id.dto';
+import { CreateOneCategoryDTO } from './dtos';
+import { UpdateOneCategoryByIdDTO } from './dtos/update-one-category-by-id.dto';
 
 @Injectable()
 export class CategoryService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async createOne(dto: CreateCategoryDTO) {
+  public async createOne(dto: CreateOneCategoryDTO) {
     const { name, departmentId } = dto;
 
     const data = await this.prismaService.category.create({
@@ -63,7 +63,7 @@ export class CategoryService {
     return { data };
   }
 
-  public async updateOneById(id: string, dto: UpdateCategoryDTO) {
+  public async updateOneById(id: string, dto: UpdateOneCategoryByIdDTO) {
     const { name } = dto;
     const data = await this.prismaService.category.update({
       where: {
