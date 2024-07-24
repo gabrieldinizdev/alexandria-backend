@@ -1,21 +1,7 @@
-import { IntersectionType, PickType } from '@nestjs/swagger';
-
-import { IsNotEmpty } from 'class-validator';
+import { OmitType, PartialType } from '@nestjs/swagger';
 
 import { DepartmentDTO } from './department.dto';
 
-class DefaultUpdateDepartmentDTO extends PickType(DepartmentDTO, [
-  'name',
-] as const) {}
-
-class NewUpdateDepartmentDTO extends PickType(DepartmentDTO, [
-  'name',
-] as const) {
-  @IsNotEmpty()
-  public readonly name: string;
-}
-
-export class UpdateDepartmentDTO extends IntersectionType(
-  DefaultUpdateDepartmentDTO,
-  NewUpdateDepartmentDTO,
+export class UpdateOneDepartmentByIdDTO extends PartialType(
+  OmitType(DepartmentDTO, ['id', 'createdAt', 'updatedAt', 'deletedAt']),
 ) {}

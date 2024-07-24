@@ -40,4 +40,19 @@ model Category {
   deletedAt    DateTime?
   department   Department @relation(fields: [departmentId], references: [id])
   departmentId String     @db.ObjectId
+  Product      Product[]
+}
+
+model Product {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  sku         String
+  title       String
+  description String
+  price       Float
+  active      Boolean
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  String    @db.ObjectId
 }

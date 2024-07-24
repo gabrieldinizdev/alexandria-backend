@@ -11,8 +11,8 @@ import {
 import { PrismaService } from '@/shared/prisma';
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { UpdateCustomerDTO } from './dtos';
-import { CreateCustomerDTO } from './dtos/create-one-customer.dto';
+import { UpdateOneCustomerByIdDTO } from './dtos';
+import { CreateOneCustomerDTO } from './dtos/create-one-customer.dto';
 
 @Injectable()
 export class CustomersService {
@@ -94,7 +94,7 @@ export class CustomersService {
     };
   }
 
-  public async createOne(dto: CreateCustomerDTO) {
+  public async createOne(dto: CreateOneCustomerDTO) {
     const { email, password, name } = dto;
     const hashedPassword = await this.hashPassword(password);
 
@@ -111,7 +111,7 @@ export class CustomersService {
     };
   }
 
-  public async updateOne(id: string, dto: UpdateCustomerDTO) {
+  public async updateOne(id: string, dto: UpdateOneCustomerByIdDTO) {
     const { email, password, name } = dto;
 
     let hashedPassword = undefined;

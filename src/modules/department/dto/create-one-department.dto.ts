@@ -13,7 +13,7 @@ class NewCreateUserDTO extends PickType(DepartmentDTO, ['name'] as const) {
   public readonly name: string;
 }
 
-export class CreateDepartmentDTO extends IntersectionType(
+export class CreateOneDepartmentDTO extends IntersectionType(
   DefaultCreatedDepartmentDTO,
   NewCreateUserDTO,
 ) {}

@@ -1,17 +1,7 @@
-import { IntersectionType, PickType } from '@nestjs/swagger';
-
-import { IsNotEmpty } from 'class-validator';
+import { PickType } from '@nestjs/swagger';
 
 import { CategoryDTO } from './category.dto';
 
-class DefaultFindCategoryDTO extends PickType(CategoryDTO, ['id'] as const) {}
-
-class NewFindCategoryDTO extends PickType(CategoryDTO, ['id'] as const) {
-  @IsNotEmpty()
-  public readonly id: string;
-}
-
-export class FindOneCategoryByIdDTO extends IntersectionType(
-  DefaultFindCategoryDTO,
-  NewFindCategoryDTO,
-) {}
+export class FindOneCategoryByIdDTO extends PickType(CategoryDTO, [
+  'id',
+] as const) {}

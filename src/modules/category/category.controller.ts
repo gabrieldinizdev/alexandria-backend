@@ -22,9 +22,9 @@ import { PaginationOptionsDTO } from '@/shared/dto/pagination';
 import { AuthGuard } from '../auth/auth.guard';
 import { CategoryService } from './category.service';
 import {
-  CreateCategoryDTO,
+  CreateOneCategoryDTO,
   FindOneCategoryByIdDTO,
-  UpdateCategoryDTO,
+  UpdateOneCategoryByIdDTO,
 } from './dtos';
 import {
   CreatedOneCategoryResponseDTO,
@@ -51,7 +51,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Post()
-  public async createOne(@Body() createCategoryDTO: CreateCategoryDTO) {
+  public async createOne(@Body() createCategoryDTO: CreateOneCategoryDTO) {
     return this.categoryService.createOne(createCategoryDTO);
   }
 
@@ -66,7 +66,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Get()
-  public async Findall(@Query() pagination: PaginationOptionsDTO) {
+  public async findall(@Query() pagination: PaginationOptionsDTO) {
     return this.categoryService.findAll({ pagination });
   }
 
@@ -81,7 +81,7 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Get(':id')
-  public async FindOneById(@Param() { id }: FindOneCategoryByIdDTO) {
+  public async findOneById(@Param() { id }: FindOneCategoryByIdDTO) {
     return this.categoryService.findOneById(id);
   }
 
@@ -96,9 +96,9 @@ export class CategoryController {
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
-  public async UpdateOneById(
+  public async updateOneById(
     @Param() { id }: FindOneCategoryByIdDTO,
-    @Body() updateUserDTO: UpdateCategoryDTO,
+    @Body() updateUserDTO: UpdateOneCategoryByIdDTO,
   ) {
     return this.categoryService.updateOneById(id, updateUserDTO);
   }
