@@ -41,7 +41,7 @@ import {
 } from './responses';
 
 @ApiBearerAuth()
-@ApiTags('products')
+@ApiTags('Products')
 @Controller('product')
 export class ProductController {
   public constructor(private readonly productService: ProductService) {}

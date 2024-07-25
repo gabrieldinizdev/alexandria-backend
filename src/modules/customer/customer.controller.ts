@@ -43,7 +43,7 @@ import {
 } from './responses';
 
 @ApiBearerAuth()
-@ApiTags('customers')
+@ApiTags('Customers')
 @Controller('customers')
 export class CustomersController {
   public constructor(private readonly customersService: CustomersService) {}
