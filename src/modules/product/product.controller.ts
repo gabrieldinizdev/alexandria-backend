@@ -27,6 +27,7 @@ import { SelectModelFieldsType } from '@/shared/types';
 import { AuthGuard } from '../auth/auth.guard';
 import {
   CreateOneProductDTO,
+  CreateOneProductOnStockDTO,
   FindOneProductByIdDTO,
   ProductDTO,
   SelectFieldsDTO,
@@ -35,6 +36,7 @@ import {
 import { ProductService } from './product.service';
 import {
   CreatedOneProductResponseDTO,
+  CreatedProductOnStockResponseDTO,
   DeletedOneProductResponseDTO,
   FoundAllProductResponseDTO,
   UpdatedOneProductResponseDTO,
@@ -137,5 +139,24 @@ export class ProductController {
   @Delete(':id')
   public async softDeleteOne(@Param() { id }: FindOneProductByIdDTO) {
     return this.productService.softDeleteOne(id);
+  }
+
+  @ApiOperation({
+    description: 'Link product to stock with required fields',
+    summary: 'Link one product to stock',
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Product to stock response object',
+    type: CreatedProductOnStockResponseDTO,
+  })
+  @UseGuards(AuthGuard)
+  @Post(':productId/stocks/:stockId')
+  public async linkProductToStock(
+    @Param('productId') productId: string,
+    @Param('stockId') stockId: string,
+    @Body() { quantity }: CreateOneProductOnStockDTO,
+  ) {
+    return this.productService.linkProductToStock(productId, stockId, quantity);
   }
 }

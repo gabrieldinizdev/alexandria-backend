@@ -109,4 +109,24 @@ export class ProductService {
 
     return { data };
   }
+
+  public async linkProductToStock(
+    productId: string,
+    stockId: string,
+    quantity: number,
+  ) {
+    const data = await this.prismaService.productsOnStocks.create({
+      data: {
+        quantity,
+        product: {
+          connect: { id: productId },
+        },
+        stock: {
+          connect: { id: stockId },
+        },
+      },
+    });
+
+    return { data };
+  }
 }
