@@ -19,7 +19,7 @@ import { SignInDTO } from './dtos/sign-in.dto';
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
-  constructor(
+  public constructor(
     private readonly customerService: CustomersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
@@ -53,8 +53,11 @@ export class AuthService {
 
     const expiresIn = this.configService.get('JWT_EXPIRES_IN');
 
+    delete customer.password;
+    const customerWithoutPassword = customer;
+
     const payload = {
-      ...customer,
+      ...customerWithoutPassword,
       expiresIn,
     };
 

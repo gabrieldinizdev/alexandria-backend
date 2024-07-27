@@ -18,6 +18,11 @@ import {
 } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination';
+import {
+  InvalidEntriesResponseDTO,
+  UnauthorizedResponseDTO,
+  RecordNotFoundDTO,
+} from '@/shared/responses/common';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { CategoryService } from './category.service';
@@ -38,7 +43,7 @@ import {
 @ApiTags('Category')
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  public constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({
     description: 'Create category with required fields',
@@ -46,8 +51,18 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'Department response object',
+    description: 'Category response object',
     type: CreatedOneCategoryResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Category response object',
+    type: InvalidEntriesResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Post()
@@ -64,6 +79,11 @@ export class CategoryController {
     description: 'Category response object',
     type: FoundAllCategoryResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Get()
   public async findall(@Query() pagination: PaginationOptionsDTO) {
@@ -79,6 +99,16 @@ export class CategoryController {
     description: 'Category response object',
     type: FoundOneCategoryByIdResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
   @UseGuards(AuthGuard)
   @Get(':id')
   public async findOneById(@Param() { id }: FindOneCategoryByIdDTO) {
@@ -93,6 +123,21 @@ export class CategoryController {
     status: HttpStatus.OK,
     description: 'Category response object',
     type: UpdatedOneCategoryResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
@@ -111,6 +156,16 @@ export class CategoryController {
     status: HttpStatus.OK,
     description: 'Category response object',
     type: DeletedOneCategoryResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
   @Delete(':id')

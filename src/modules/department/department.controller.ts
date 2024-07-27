@@ -18,6 +18,11 @@ import {
 } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination';
+import {
+  InvalidEntriesResponseDTO,
+  RecordNotFoundDTO,
+  UnauthorizedResponseDTO,
+} from '@/shared/responses/common';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { DepartmentService } from './department.service';
@@ -49,6 +54,16 @@ export class DepartmentController {
     description: 'Department response object',
     type: CreatedOneDepartmentResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Post()
   public async createOne(@Body() createDepartmentDTO: CreateOneDepartmentDTO) {
@@ -63,6 +78,11 @@ export class DepartmentController {
     status: HttpStatus.OK,
     description: 'Department response object',
     type: FoundAllDepartmentResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Get()
@@ -79,6 +99,16 @@ export class DepartmentController {
     description: 'Department response object',
     type: FoundOneDepartmentResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
   @UseGuards(AuthGuard)
   @Get(':id')
   public async findOneById(@Param() { id }: FindOneDepartmentByIdDTO) {
@@ -93,6 +123,21 @@ export class DepartmentController {
     status: HttpStatus.OK,
     description: 'Department response object',
     type: UpdatedOneDepartmentResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
@@ -111,6 +156,16 @@ export class DepartmentController {
     status: HttpStatus.OK,
     description: 'Department response object',
     type: DeletedOneDepartmentResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
   @Delete(':id')

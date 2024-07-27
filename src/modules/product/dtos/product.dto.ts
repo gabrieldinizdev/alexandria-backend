@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsBoolean, IsNumber, IsPositive, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsPositive,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 import { CommonFieldsDTO } from '@/shared/dto';
 
@@ -13,6 +19,7 @@ export class ProductDTO extends CommonFieldsDTO {
   public readonly sku: string;
 
   @IsString()
+  @MaxLength(200)
   @ApiProperty({
     description: 'Product title',
     example: 'Café',
@@ -20,6 +27,7 @@ export class ProductDTO extends CommonFieldsDTO {
   public readonly title: string;
 
   @IsString()
+  @MaxLength(1000)
   @ApiProperty({
     description: 'Product description',
     example:
@@ -31,7 +39,7 @@ export class ProductDTO extends CommonFieldsDTO {
   @IsNumber()
   @ApiProperty({
     description: 'Product price',
-    example: '15.90',
+    example: 15.9,
   })
   public readonly price: number;
 

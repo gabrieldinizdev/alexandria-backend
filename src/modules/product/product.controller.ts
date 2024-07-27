@@ -22,6 +22,11 @@ import { Product } from '@prisma/client';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import {
+  InvalidEntriesResponseDTO,
+  RecordNotFoundDTO,
+  UnauthorizedResponseDTO,
+} from '@/shared/responses/common';
 import { SelectModelFieldsType } from '@/shared/types';
 
 import { AuthGuard } from '../auth/auth.guard';
@@ -57,6 +62,16 @@ export class ProductController {
     description: 'Product response object',
     type: CreatedOneProductResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Post()
   public async createOne(@Body() createProductDTO: CreateOneProductDTO) {
@@ -71,6 +86,11 @@ export class ProductController {
     status: HttpStatus.OK,
     description: 'Product response object',
     type: FoundAllProductResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
     name: 'select',
@@ -95,6 +115,16 @@ export class ProductController {
     description: 'Product response object',
     type: FoundAllProductResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<ProductDTO>,
@@ -117,6 +147,21 @@ export class ProductController {
     description: 'Product response object',
     type: UpdatedOneProductResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Patch(':id')
   public async updateOneById(
@@ -135,6 +180,16 @@ export class ProductController {
     description: 'Product response object',
     type: DeletedOneProductResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
   @UseGuards(AuthGuard)
   @Delete(':id')
   public async softDeleteOne(@Param() { id }: FindOneProductByIdDTO) {
@@ -149,6 +204,21 @@ export class ProductController {
     status: HttpStatus.CREATED,
     description: 'Product to stock response object',
     type: CreatedProductOnStockResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Post(':productId/stocks/:stockId')

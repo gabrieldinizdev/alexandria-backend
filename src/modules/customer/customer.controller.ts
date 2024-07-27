@@ -22,6 +22,11 @@ import { Customer } from '@prisma/client';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import {
+  InvalidEntriesResponseDTO,
+  RecordNotFoundDTO,
+  UnauthorizedResponseDTO,
+} from '@/shared/responses/common';
 import { SelectModelFieldsType } from '@/shared/types';
 
 import { AuthGuard } from '../auth/auth.guard';
@@ -57,6 +62,16 @@ export class CustomersController {
     description: 'Customer response object',
     type: CreatedOneCustomerResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
   @Post()
   public async createOne(@Body() createUserDTO: CreateOneCustomerDTO) {
     return await this.customersService.createOne(createUserDTO);
@@ -70,6 +85,11 @@ export class CustomersController {
     description: 'find all customer response',
     type: FoundAllCustomerResponseDTO,
     status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
     name: 'select',
@@ -94,6 +114,16 @@ export class CustomersController {
     description: 'Customer response object',
     type: FoundOneCustomerResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<CustomerDTO>,
@@ -116,6 +146,16 @@ export class CustomersController {
     status: HttpStatus.OK,
     description: 'Customer response object',
     type: FoundOneCustomerResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
   })
   @ApiQuery({
     name: 'select',
@@ -140,6 +180,21 @@ export class CustomersController {
     description: 'Customer response object',
     type: UpdatedOneCustomerResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Patch(':id')
   public async updateOneById(
@@ -157,6 +212,16 @@ export class CustomersController {
     status: HttpStatus.OK,
     description: 'Customer response object',
     type: DeletedOneCustomerResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Category response object',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Category response object',
+    type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
   @Delete(':id')

@@ -1,14 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsString } from 'class-validator';
+import { IsString, MaxLength } from 'class-validator';
 
 import { CommonFieldsDTO } from '@/shared/dto';
 
 export class StockDTO extends CommonFieldsDTO {
   @IsString()
+  @MaxLength(64)
   @ApiProperty({
     description: 'Stock name',
     example: 'Loja A',
   })
-  name: string;
+  public readonly name: string;
 }
