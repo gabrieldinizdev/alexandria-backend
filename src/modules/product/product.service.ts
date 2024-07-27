@@ -93,6 +93,8 @@ export class ProductService {
       },
     });
 
+    if (!data) return new NotFoundException('Product not found');
+
     return { data };
   }
 
@@ -105,6 +107,7 @@ export class ProductService {
         deletedAt: new Date(),
       },
     });
+
     if (!data) throw new NotFoundException('Product not found.');
 
     return { data };

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import {
   PaginationDTO,
@@ -23,6 +23,7 @@ export class CategoryService {
         departmentId,
       },
     });
+
     return { data };
   }
 
@@ -60,11 +61,15 @@ export class CategoryService {
         id,
       },
     });
+
+    if (!data) return new NotFoundException('Category not found');
+
     return { data };
   }
 
   public async updateOneById(id: string, dto: UpdateOneCategoryByIdDTO) {
     const { name } = dto;
+
     const data = await this.prismaService.category.update({
       where: {
         id,
@@ -73,6 +78,8 @@ export class CategoryService {
         name,
       },
     });
+
+    if (!data) return new NotFoundException('Category not found');
 
     return { data };
   }
@@ -86,6 +93,9 @@ export class CategoryService {
         deletedAt: new Date(),
       },
     });
+
+    if (!data) return new NotFoundException('Category not found');
+
     return { data };
   }
 }

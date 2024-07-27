@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import {
   PaginationDTO,
@@ -58,6 +58,9 @@ export class DepartmentService {
         id,
       },
     });
+
+    if (!data) return new NotFoundException('Department not found');
+
     return { data };
   }
 
@@ -72,6 +75,9 @@ export class DepartmentService {
         name,
       },
     });
+
+    if (!data) return new NotFoundException('Department not found');
+
     return { data };
   }
 
@@ -84,6 +90,9 @@ export class DepartmentService {
         deletedAt: new Date(),
       },
     });
+
+    if (!data) return new NotFoundException('Department not found');
+
     return { data };
   }
 }
