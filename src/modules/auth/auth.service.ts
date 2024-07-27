@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
@@ -12,6 +17,8 @@ import { SignInDTO } from './dtos/sign-in.dto';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly customerService: CustomersService,
     private readonly configService: ConfigService,
@@ -26,10 +33,17 @@ export class AuthService {
       createdAt: true,
       id: true,
     };
-    const { data: customer } = await this.customerService.findOneByEmail(
-      email,
-      select,
-    );
+    let customer: Awaited<Customer>;
+
+    try {
+      const { data } = await this.customerService.findOneByEmail(email, select);
+      customer = data;
+    } catch (error: any) {
+      if (error.status === HttpStatus.NOT_FOUND) {
+        this.logger.error('customer not found');
+        throw new UnauthorizedException('Credentials are invalid');
+      }
+    }
 
     const isMatch = await bcrypt.compare(password, customer.password);
 
