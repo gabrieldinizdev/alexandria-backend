@@ -1,2 +1,2 @@
-export * from './login-custumer-response.dto';
-export * from './login-custumer-unauthorized-response.dto';
+export * from './login-customer-response.dto';
+export * from './login-customer-unauthorized-response.dto';

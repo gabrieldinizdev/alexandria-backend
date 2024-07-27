@@ -93,7 +93,7 @@ export class ProductService {
       },
     });
 
-    if (!data) return new NotFoundException('Product not found');
+    if (!data) throw new NotFoundException('Product not found');
 
     return { data };
   }

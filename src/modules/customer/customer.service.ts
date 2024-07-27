@@ -131,7 +131,7 @@ export class CustomersService {
       },
     });
 
-    if (!data) return new NotFoundException('Customer not found');
+    if (!data) throw new NotFoundException('Customer not found');
 
     return {
       data,
@@ -147,7 +147,7 @@ export class CustomersService {
         deletedAt: new Date(),
       },
     });
-    if (!data) return new NotFoundException('Customer not found');
+    if (!data) throw new NotFoundException('Customer not found');
 
     return {
       data,
