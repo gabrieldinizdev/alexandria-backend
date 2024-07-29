@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -15,6 +16,7 @@ import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
+import { HttpExceptionFilter } from '@/shared/filters/http-exception';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
 import { SelectModelFieldsType } from '@/shared/types';
 
@@ -35,6 +37,7 @@ import {
 } from './responses';
 import { UsersService } from './users.service';
 
+@UseFilters(new HttpExceptionFilter())
 @ApiTags('users')
 @Controller('users')
 export class UsersController {

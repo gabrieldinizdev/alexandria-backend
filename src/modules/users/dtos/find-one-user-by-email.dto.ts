@@ -1,7 +1,14 @@
-import { PickType } from '@nestjs/swagger';
+import { IntersectionType, PickType } from '@nestjs/swagger';
 
 import { UserDTO } from './user.dto';
 
-export class FindOneUserByEmailDTO extends PickType(UserDTO, [
+class DefaultFindOneUserByEmailDTO extends PickType(UserDTO, [
   'email',
 ] as const) {}
+
+class NewFindOneUserByEmailDTO extends PickType(UserDTO, ['email'] as const) {}
+
+export class FindOneUserByEmailDTO extends IntersectionType(
+  DefaultFindOneUserByEmailDTO,
+  NewFindOneUserByEmailDTO,
+) {}
