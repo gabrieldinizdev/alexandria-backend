@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Customer {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   email     String    @unique
   name      String
@@ -21,4 +21,60 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+}
+
+model Department {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  category  Category[]
+}
+
+model Category {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId String     @db.ObjectId
+  product      Product[]
+}
+
+model Product {
+  id          String             @id @default(auto()) @map("_id") @db.ObjectId
+  sku         String
+  title       String
+  description String
+  price       Float
+  active      Boolean
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  deletedAt   DateTime?
+  category    Category           @relation(fields: [categoryId], references: [id])
+  categoryId  String             @db.ObjectId
+  stocks      ProductsOnStocks[]
+}
+
+model Stock {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  deletedAt DateTime?
+  products  ProductsOnStocks[]
+}
+
+model ProductsOnStocks {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId  String   @db.ObjectId
+  stock      Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  stockId    String   @db.ObjectId
+  quantity   Int
+  assignedAt DateTime @default(now())
+
+  @@unique([productId, stockId])
 }

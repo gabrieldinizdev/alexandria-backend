@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import * as expressBasicAuth from 'express-basic-auth';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,6 +13,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService>(ConfigService);
   const serverPort = configService.getOrThrow('SERVER_PORT');
+  const apiCredentials = configService.getOrThrow('SERVER_PASSWORD');
+  const nodeENV = configService.getOrThrow('NODE_ENV');
 
   const TITLE = 'Project - Alexandria';
   const DESCRIPTION = 'The main API of "Alexandria"';
@@ -20,15 +24,24 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
-      forbidUnknownValues: true,
-      forbidNonWhitelisted: true,
       stopAtFirstError: true,
       whitelist: true,
       transform: true,
     }),
   );
 
+  if (nodeENV === 'production') {
+    app.use(
+      ['/docs', '/docs-json'],
+      expressBasicAuth({
+        challenge: true,
+        users: { admin: apiCredentials },
+      }),
+    );
+  }
+
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle(TITLE)
     .setDescription(DESCRIPTION)
     .setVersion(API_VERSION)

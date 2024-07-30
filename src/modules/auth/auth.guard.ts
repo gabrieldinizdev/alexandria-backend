@@ -15,7 +15,8 @@ import { IS_PUBLIC_KEY } from '@/decorators/custom-auth.decorator';
 @Injectable()
 export class AuthGuard implements CanActivate {
   private readonly logger = new Logger(AuthGuard.name);
-  constructor(
+
+  public constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
   ) {}
