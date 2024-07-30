@@ -27,7 +27,9 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       statusCode = exception.getStatus();
-      message = exception.getResponse() as string;
+      message = (exception.getResponse() as Record<string, unknown>)
+        .message as string;
+      meta = exception.cause as Record<string, unknown>;
     }
     // * Exception if the query engine returns a known error related to the request
     else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
