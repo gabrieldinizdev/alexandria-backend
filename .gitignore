@@ -54,7 +54,7 @@ pids
 
 
 # Redis folder
-redis/
+.docker/redis/
 
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
