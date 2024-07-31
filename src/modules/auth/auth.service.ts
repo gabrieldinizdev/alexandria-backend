@@ -1,6 +1,7 @@
 import {
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,21 +10,42 @@ import { JwtService } from '@nestjs/jwt';
 
 import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import Handlebars from 'handlebars';
+import * as nodemailer from 'nodemailer';
 
 import { SelectModelFieldsType } from '@/shared/types';
+import { generateCode } from '@/shared/utils';
+import { forgotPasswordTemplate } from '@/templates/auth';
 
 import { CustomersService } from '../customer/customer.service';
+import { RedisService } from '../redis/redis.service';
+import { VerificationCodeDTO } from './dtos';
 import { SignInDTO } from './dtos/sign-in.dto';
+import { SmtpConfigProps } from './types';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private smtpConfig: SmtpConfigProps;
+  private transporter: nodemailer.Transporter;
 
   public constructor(
     private readonly customerService: CustomersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly redisService: RedisService,
+  ) {
+    this.smtpConfig = {
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: this.configService.getOrThrow('EMAIL_ALEXANDRIA'),
+        pass: this.configService.getOrThrow('EMAIL_ALEXANDRIA_PASSWORD'),
+      },
+    };
+    this.transporter = nodemailer.createTransport(this.smtpConfig);
+  }
 
   public async signIn({ email, password }: SignInDTO) {
     const select: SelectModelFieldsType<Customer> = {
@@ -65,4 +87,62 @@ export class AuthService {
 
     return { data: token };
   }
+
+  public async sendVerificationCode(
+    { email }: VerificationCodeDTO,
+    fields: SelectModelFieldsType<Customer>,
+  ) {
+    // const expirationCode = this.configService.getOrThrow('EXPIRATION_CODE');
+
+    const customer = await this.customerService.findOneByEmail(email, fields);
+
+    const code = generateCode(6);
+    const teste = await this.redisService.save(
+      `verification-${code}`,
+      { email, code },
+      300000600,
+    );
+    console.log(teste);
+    const template = Handlebars.compile(forgotPasswordTemplate);
+
+    const data = {
+      code,
+      resetLink: this.configService.getOrThrow('EMAIL_FORGOT_PASSWORD_LINK'),
+    };
+
+    const result = template(data);
+
+    try {
+      this.transporter.sendMail({
+        from: this.configService.getOrThrow('EMAIL_ALEXANDRIA'),
+        to: customer.data.email,
+        subject: 'Alexandria-Support: Password Recovery',
+        html: result,
+      });
+
+      return { data: true };
+    } catch (error: any) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Error on send email');
+    }
+  }
+
+  // public async resetPassword(
+  //   dto: ResetPasswordDTO,
+  //   fields: SelectModelFieldsType<Customer>,
+  // ) {
+  //   const { code, confirmPassword, password } = dto;
+  //   console.log({ code, confirmPassword, password });
+  //   const redisUser = await this.redisService.get(`verification-code-${code}`);
+  //   console.log(redisUser);
+  //   return;
+  //   // if (!redisUser) throw new BadRequestException('Invalid code');
+
+  //   // const isPasswordMatch = password === confirmPassword;
+  //   // // const isCodeMatch = code === redisUser.code;
+
+  //   // if (!isPasswordMatch) {
+  //   //   throw new UnauthorizedException('passwords do not match');
+  //   // }
+  // }
 }

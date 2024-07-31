@@ -42,6 +42,17 @@ services:
     networks:
       - custom-network
 
+  redis:
+    container_name: 'redis-server'
+    image: redis:7
+    ports:
+      - '6379:6379'
+    restart: on-failure
+    expose:
+      - 6379
+    volumes:
+      - ./redis:/data
+
 networks:
   custom-network:
     driver: bridge

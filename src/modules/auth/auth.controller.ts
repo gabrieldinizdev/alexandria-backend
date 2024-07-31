@@ -1,9 +1,14 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { Customer } from '@prisma/client';
+
+import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
 import { InvalidEntriesResponseDTO } from '@/shared/responses/common';
+import { SelectModelFieldsType } from '@/shared/types';
 
 import { AuthService } from './auth.service';
+import { VerificationCodeDTO } from './dtos';
 import { SignInDTO } from './dtos/sign-in.dto';
 import {
   LoginResponseDTO,
@@ -38,4 +43,36 @@ export class AuthController {
   public async signin(@Body() signinDto: SignInDTO) {
     return this.authService.signIn(signinDto);
   }
+
+  @ApiOperation({
+    description: 'Sendo verification code to costumer email ',
+    summary: 'Send verification code',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Login Response Unauthorized Object',
+    type: LoginInvalidCredentialsResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Login Response Bad Request Object',
+    type: InvalidEntriesResponseDTO,
+  })
+  @Post('forgot-password')
+  public async sendVerificationCode(
+    @Body() { email }: VerificationCodeDTO,
+    @Query('select', new SelectFieldsPipe())
+    select: SelectModelFieldsType<Customer>,
+  ) {
+    return this.authService.sendVerificationCode({ email }, select);
+  }
+
+  // @Patch('reset-password')
+  // public async resetPassword(
+  //   @Body() dto: ResetPasswordDTO,
+  //   @Query('select', new SelectFieldsPipe())
+  //   select: SelectModelFieldsType<Customer>,
+  // ) {
+  //   return this.authService.resetPassword(dto, select);
+  // }
 }
