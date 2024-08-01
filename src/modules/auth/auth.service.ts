@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
@@ -19,9 +20,9 @@ import { forgotPasswordTemplate } from '@/templates/auth';
 
 import { CustomersService } from '../customer/customer.service';
 import { RedisService } from '../redis/redis.service';
-import { VerificationCodeDTO } from './dtos';
+import { ResetPasswordDTO, VerificationCodeDTO } from './dtos';
 import { SignInDTO } from './dtos/sign-in.dto';
-import { SmtpConfigProps } from './types';
+import { SaveCustomerCodeProps, SmtpConfigProps } from './types';
 
 @Injectable()
 export class AuthService {
@@ -92,17 +93,19 @@ export class AuthService {
     { email }: VerificationCodeDTO,
     fields: SelectModelFieldsType<Customer>,
   ) {
-    // const expirationCode = this.configService.getOrThrow('EXPIRATION_CODE');
+    const expirationCode = this.configService.getOrThrow(
+      'REDIS_EXPIRATION_CODE',
+    );
 
     const customer = await this.customerService.findOneByEmail(email, fields);
 
     const code = generateCode(6);
-    const teste = await this.redisService.save(
-      `verification-${code}`,
+    await this.redisService.save(
+      `verification-code.${code}`,
       { email, code },
-      300000600,
+      expirationCode,
     );
-    console.log(teste);
+
     const template = Handlebars.compile(forgotPasswordTemplate);
 
     const data = {
@@ -127,22 +130,32 @@ export class AuthService {
     }
   }
 
-  // public async resetPassword(
-  //   dto: ResetPasswordDTO,
-  //   fields: SelectModelFieldsType<Customer>,
-  // ) {
-  //   const { code, confirmPassword, password } = dto;
-  //   console.log({ code, confirmPassword, password });
-  //   const redisUser = await this.redisService.get(`verification-code-${code}`);
-  //   console.log(redisUser);
-  //   return;
-  //   // if (!redisUser) throw new BadRequestException('Invalid code');
+  public async resetPassword(
+    dto: ResetPasswordDTO,
+    fields: SelectModelFieldsType<Customer>,
+  ) {
+    const { code, confirmPassword, password } = dto;
 
-  //   // const isPasswordMatch = password === confirmPassword;
-  //   // // const isCodeMatch = code === redisUser.code;
+    const response = await this.redisService.get(`verification-code.${code}`);
+    const redisUser: SaveCustomerCodeProps = JSON.parse(response);
 
-  //   // if (!isPasswordMatch) {
-  //   //   throw new UnauthorizedException('passwords do not match');
-  //   // }
-  // }
+    if (!redisUser) throw new BadRequestException('Invalid code');
+
+    const isPasswordMatch = password === confirmPassword;
+
+    if (!isPasswordMatch) {
+      throw new UnauthorizedException('passwords do not match');
+    }
+
+    const { data } = await this.customerService.findOneByEmail(
+      redisUser.email,
+      fields,
+    );
+
+    const result = await this.customerService.updateOne(data.id, { password });
+
+    delete result.data.password;
+
+    return result;
+  }
 }

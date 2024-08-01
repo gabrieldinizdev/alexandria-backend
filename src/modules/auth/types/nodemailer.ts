@@ -4,8 +4,3 @@ export type SmtpConfigProps = {
   secure: boolean;
   auth: { user: string; pass: string };
 };
-
-export type CustomerProps = {
-  email: string;
-  code: number;
-};

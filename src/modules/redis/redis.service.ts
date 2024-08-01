@@ -28,7 +28,6 @@ export class RedisService {
   }
 
   public save(key: string, value: Record<string, unknown>, expires?: number) {
-    console.log({ key, value, expires });
     return this.redisClient.set(key, JSON.stringify(value), 'EX', expires);
   }
 
