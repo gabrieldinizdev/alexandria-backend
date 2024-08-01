@@ -5,6 +5,7 @@ import { CategoryModule } from './category/category.module';
 import { CustomersModule } from './customer/customer.module';
 import { DepartmentModule } from './department/department.module';
 import { ProductModule } from './product/product.module';
+import { RedisModule } from './redis/redis.module';
 import { StockModule } from './stock/stock.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { StockModule } from './stock/stock.module';
     CategoryModule,
     ProductModule,
     StockModule,
+    RedisModule,
   ],
 })
 export class ModulesModule {}
