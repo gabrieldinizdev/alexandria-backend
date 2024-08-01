@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -32,7 +36,7 @@ export class CustomersService {
     }: {
       pagination: PaginationOptionsDTO;
     },
-    fields: SelectModelFieldsType<Customer>,
+    fields?: SelectModelFieldsType<Customer>,
   ) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
@@ -60,7 +64,7 @@ export class CustomersService {
 
   public async findOneById(
     id: string,
-    fields: SelectModelFieldsType<Customer>,
+    fields?: SelectModelFieldsType<Customer>,
   ) {
     const data = await this.prismaService.customer.findUnique({
       where: {
@@ -78,7 +82,7 @@ export class CustomersService {
 
   public async findOneByEmail(
     email: string,
-    fields: SelectModelFieldsType<Customer>,
+    fields?: SelectModelFieldsType<Customer>,
   ) {
     const data = await this.prismaService.customer.findUnique({
       where: {
@@ -148,6 +152,24 @@ export class CustomersService {
       },
     });
     if (!data) throw new NotFoundException('Customer not found');
+
+    return {
+      data,
+    };
+  }
+
+  public async verifyEmailExistence(
+    email: string,
+    fields?: SelectModelFieldsType<Customer>,
+  ) {
+    const data = await this.prismaService.customer.findUnique({
+      where: {
+        email,
+      },
+      select: fields,
+    });
+
+    if (data) throw new ConflictException('Email already exists');
 
     return {
       data,
