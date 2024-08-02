@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
@@ -22,6 +23,7 @@ import { CustomersService } from '../customer/customer.service';
 import { RedisService } from '../redis/redis.service';
 import { ResetPasswordDTO, VerificationCodeDTO } from './dtos';
 import { SignInDTO } from './dtos/sign-in.dto';
+import { SignUpDTO } from './dtos/sign-up.dto';
 import { SaveCustomerCodeProps, SmtpConfigProps } from './types';
 
 @Injectable()
@@ -89,15 +91,29 @@ export class AuthService {
     return { data: token };
   }
 
-  public async sendVerificationCode(
-    { email }: VerificationCodeDTO,
-    fields: SelectModelFieldsType<Customer>,
-  ) {
+  public async signUp(dto: SignUpDTO) {
+    try {
+      await this.customerService.verifyEmailExistence(dto.email);
+    } catch (error: any) {
+      if (error.status === HttpStatus.CONFLICT) {
+        this.logger.error('Email already exists');
+        throw new ConflictException('Customer already exists');
+      }
+    }
+
+    const { data } = await this.customerService.createOne(dto);
+
+    delete data.password;
+
+    return { data };
+  }
+
+  public async sendVerificationCode({ email }: VerificationCodeDTO) {
     const expirationCode = this.configService.getOrThrow(
       'REDIS_EXPIRATION_CODE',
     );
 
-    const customer = await this.customerService.findOneByEmail(email, fields);
+    const customer = await this.customerService.findOneByEmail(email);
 
     const code = generateCode(6);
     await this.redisService.save(
@@ -130,10 +146,7 @@ export class AuthService {
     }
   }
 
-  public async resetPassword(
-    dto: ResetPasswordDTO,
-    fields: SelectModelFieldsType<Customer>,
-  ) {
+  public async resetPassword(dto: ResetPasswordDTO) {
     const { code, confirmPassword, password } = dto;
 
     const response = await this.redisService.get(`verification-code.${code}`);
@@ -147,10 +160,7 @@ export class AuthService {
       throw new UnauthorizedException('passwords do not match');
     }
 
-    const { data } = await this.customerService.findOneByEmail(
-      redisUser.email,
-      fields,
-    );
+    const { data } = await this.customerService.findOneByEmail(redisUser.email);
 
     const result = await this.customerService.updateOne(data.id, { password });
 

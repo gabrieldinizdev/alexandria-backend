@@ -38,7 +38,7 @@ export class ProductService {
     }: {
       pagination: PaginationOptionsDTO;
     },
-    fields: SelectModelFieldsType<Product>,
+    fields?: SelectModelFieldsType<Product>,
   ) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
@@ -64,7 +64,10 @@ export class ProductService {
     return pagination;
   }
 
-  public async findOneById(id: string, fields: SelectModelFieldsType<Product>) {
+  public async findOneById(
+    id: string,
+    fields?: SelectModelFieldsType<Product>,
+  ) {
     const data = await this.prismaService.product.findUnique({
       where: {
         id,
