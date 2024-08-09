@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './shared/filters/http-exception';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -26,8 +27,11 @@ async function bootstrap() {
     new ValidationPipe({
       stopAtFirstError: true,
       whitelist: true,
+      transform: true,
     }),
   );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   if (nodeENV === 'production') {
     app.use(
