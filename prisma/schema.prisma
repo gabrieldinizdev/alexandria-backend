@@ -14,10 +14,12 @@ datasource db {
 }
 
 model Customer {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  email     String    @unique
-  name      String
-  password  String
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  name     String
+  password String
+  cart     Cart?
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -56,6 +58,7 @@ model Product {
   category    Category           @relation(fields: [categoryId], references: [id])
   categoryId  String             @db.ObjectId
   stocks      ProductsOnStocks[]
+  items       Item[]
 }
 
 model Stock {
@@ -77,4 +80,33 @@ model ProductsOnStocks {
   assignedAt DateTime @default(now())
 
   @@unique([productId, stockId])
+}
+
+model Item {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  price    Float
+  quantity Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  cartId    String  @db.ObjectId
+}
+
+model Cart {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  active Boolean
+  total  Float
+  items  Item[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique @db.ObjectId
 }
