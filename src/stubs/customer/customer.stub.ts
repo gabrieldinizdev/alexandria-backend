@@ -16,7 +16,7 @@ export const CustomerStub: CustomerStubType = {
   deletedAt: 'null',
 };
 
-export const CustomerStubWithDeletetAt: CustomerStubType = {
+export const CustomerStubWithDeletedAt: CustomerStubType = {
   id: '669543757fcd695893969290',
   email: 'marcelobiriba@mail.com',
   name: 'Marcelo Wesley Biriba Rodrigues',

@@ -192,7 +192,7 @@ export class CustomersController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Update Response Bad Request Object',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
