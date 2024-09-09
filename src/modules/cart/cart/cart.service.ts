@@ -72,12 +72,10 @@ export class CartService {
   }
 
   public async updateOneById(id: string, dto: UpdateOneCartByIdDTO) {
-    const { customerId, active, total } = dto;
+    const { active, total } = dto;
 
     const data = await this.prismaService.cart.update({
       data: {
-        // ! TODO: Remover a opção de alterar o customerId
-        customerId,
         active,
         total,
       },
