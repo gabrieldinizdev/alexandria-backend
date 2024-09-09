@@ -2,13 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Product } from '@prisma/client';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
-import { SelectModelFieldsType } from '@/shared/types';
+import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
 import { CreateOneProductDTO, UpdateOneProductByIdDTO } from './dtos';
 
@@ -32,14 +28,10 @@ export class ProductService {
     return { data };
   }
 
-  public async findAll(
-    {
-      pagination: { page = 1, size = 5 },
-    }: {
-      pagination: PaginationOptionsDTO;
-    },
-    fields?: SelectModelFieldsType<Product>,
-  ) {
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+    fields,
+  }: CommonFilter<Product>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };

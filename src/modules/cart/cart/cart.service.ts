@@ -2,13 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Cart } from '@prisma/client';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
-import { SelectModelFieldsType } from '@/shared/types';
+import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
 import { CreateOneCartDTO } from './dto/create-one-cart.dto';
 import { UpdateOneCartByIdDTO } from './dto/update-one-cart.dto';
@@ -20,6 +16,7 @@ export class CartService {
   public async createOne(dto: CreateOneCartDTO) {
     const { customerId } = dto;
 
+    // ! TODO: Deixar que o banco sete o valor total 0 por padrão
     const data = await this.prismaService.cart.create({
       data: {
         active: true,
@@ -33,14 +30,10 @@ export class CartService {
     };
   }
 
-  public async findAll(
-    {
-      pagination: { page = 1, size = 5 },
-    }: {
-      pagination: PaginationOptionsDTO;
-    },
-    fields?: SelectModelFieldsType<Cart>,
-  ) {
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+    fields,
+  }: CommonFilter<Cart>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
@@ -85,6 +78,7 @@ export class CartService {
 
     const data = await this.prismaService.cart.update({
       data: {
+        // ! TODO: Remover a opção de alterar o customerId
         customerId,
         active,
         total,

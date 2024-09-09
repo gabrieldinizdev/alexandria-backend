@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { Department } from '@prisma/client';
+
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
+import { CommonFilter } from '@/shared/types';
 
 import { CreateOneDepartmentDTO, UpdateOneDepartmentByIdDTO } from './dto';
 
@@ -26,9 +25,7 @@ export class DepartmentService {
 
   public async findAll({
     pagination: { page = 1, size = 5 },
-  }: {
-    pagination: PaginationOptionsDTO;
-  }) {
+  }: CommonFilter<Department>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
