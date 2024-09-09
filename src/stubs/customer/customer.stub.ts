@@ -13,7 +13,7 @@ export const CustomerStub: CustomerStubType = {
   name: 'Marcelo Wesley Biriba Rodrigues',
   createdAt: '2024-07-15T15:27:15.700Z',
   updatedAt: '2024-07-15T15:27:15.700Z',
-  deletedAt: 'null',
+  deletedAt: null,
 };
 
 export const CustomerStubWithDeletedAt: CustomerStubType = {

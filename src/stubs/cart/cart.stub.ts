@@ -19,7 +19,7 @@ export const CartStub: CartStubType = {
   customerId: '669543757fcd695893969290',
   createdAt: '2024-07-15T15:27:15.700Z',
   updatedAt: '2024-07-15T15:27:15.700Z',
-  deletedAt: 'null',
+  deletedAt: null,
 };
 
 export const CartStubWithDeletedAt: CartStubType = {

@@ -14,7 +14,7 @@ export const StockStub: StockStubType = {
   deletedAt: null,
 };
 
-export const StockStubWithDeletetAt: StockStubType = {
+export const StockStubWithDeletedAt: StockStubType = {
   id: '669543757fcd695893969290',
   name: 'Loja A',
   createdAt: '2024-07-15T15:27:15.700Z',
