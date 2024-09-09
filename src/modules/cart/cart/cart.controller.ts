@@ -21,7 +21,6 @@ import {
 import { Cart } from '@prisma/client';
 
 import { AuthGuard } from '@/modules/auth/auth.guard';
-import { FindOneCustomerByIdDTO } from '@/modules/customer/dtos/find-one-customer-by-id.dto';
 import { PaginationOptionsDTO } from '@/shared/dto/pagination';
 import { SelectFieldsDTO } from '@/shared/dto/select-fields';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
@@ -161,7 +160,7 @@ export class CartController {
   @UseGuards(AuthGuard)
   @Patch(':id')
   public async updateByOneId(
-    @Param() { id }: FindOneCustomerByIdDTO,
+    @Param() { id }: FindOneCartByIdDTO,
     @Body() updateCartDto: UpdateOneCartByIdDTO,
   ) {
     return await this.cartService.updateOneById(id, updateCartDto);
