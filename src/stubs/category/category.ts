@@ -16,7 +16,7 @@ export const CategoryStub: CategoryStubType = {
   deletedAt: null,
 };
 
-export const CategoryStubWithDeletetAt: CategoryStubType = {
+export const CategoryStubWithDeletedAt: CategoryStubType = {
   id: '669543757fcd695893969290',
   name: 'Adega',
   departmentId: '669e967b746e482c2c045973',

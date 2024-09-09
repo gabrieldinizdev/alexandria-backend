@@ -22,10 +22,10 @@ export const ProductStub: ProductStubType = {
   sku: 'CAF-MED-250G-BR',
   createdAt: '2024-07-15T15:27:15.700Z',
   updatedAt: '2024-07-15T15:27:15.700Z',
-  deletedAt: 'null',
+  deletedAt: null,
 };
 
-export const ProductStubWithDeletetAt: ProductStubType = {
+export const ProductStubWithDeletedAt: ProductStubType = {
   id: '669543757fcd695893969290',
   title: 'Café',
   active: true,

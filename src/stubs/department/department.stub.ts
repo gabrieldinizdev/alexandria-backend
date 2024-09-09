@@ -14,7 +14,7 @@ export const DepartmentStub: DepartmentStubType = {
   deletedAt: null,
 };
 
-export const DepartmentStubWithDeletetAt: DepartmentStubType = {
+export const DepartmentStubWithDeletedAt: DepartmentStubType = {
   id: '669543757fcd695893969290',
   name: 'Games',
   createdAt: '2024-07-15T15:27:15.700Z',

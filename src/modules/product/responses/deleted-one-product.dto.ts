@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductStubWithDeletetAt } from '@/stubs/product';
+import { ProductStubWithDeletedAt } from '@/stubs/product';
 
 export class DeletedOneProductResponseDTO {
   @ApiProperty({
-    example: ProductStubWithDeletetAt,
+    example: ProductStubWithDeletedAt,
   })
-  public readonly data: typeof ProductStubWithDeletetAt;
+  public readonly data: typeof ProductStubWithDeletedAt;
 }
