@@ -102,7 +102,10 @@ export class CustomersController {
     @Query('select', new SelectFieldsPipe())
     select: SelectModelFieldsType<Customer>,
   ) {
-    return this.customersService.findAll({ pagination }, select);
+    return this.customersService.findAll({
+      pagination,
+      fields: select,
+    });
   }
 
   @ApiOperation({

@@ -67,7 +67,9 @@ export class StockController {
   @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() pagination: PaginationOptionsDTO) {
-    return this.stockService.findAll({ pagination });
+    return this.stockService.findAll({
+      pagination,
+    });
   }
 
   @ApiOperation({

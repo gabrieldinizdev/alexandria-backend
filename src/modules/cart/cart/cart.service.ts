@@ -16,11 +16,9 @@ export class CartService {
   public async createOne(dto: CreateOneCartDTO) {
     const { customerId } = dto;
 
-    // ! TODO: Deixar que o banco sete o valor total 0 por padrão
     const data = await this.prismaService.cart.create({
       data: {
         active: true,
-        total: 0,
         customerId,
       },
     });
