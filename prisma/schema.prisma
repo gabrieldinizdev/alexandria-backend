@@ -93,7 +93,7 @@ model Item {
 
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.ObjectId
-  cart      Cart    @relation(fields: [cartId], references: [id])
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String  @db.ObjectId
 }
 

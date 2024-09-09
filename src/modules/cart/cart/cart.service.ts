@@ -21,6 +21,9 @@ export class CartService {
         active: true,
         customerId,
       },
+      include: {
+        items: true,
+      },
     });
 
     return {
@@ -81,6 +84,9 @@ export class CartService {
       },
       where: {
         id,
+      },
+      include: {
+        items: true,
       },
     });
 
