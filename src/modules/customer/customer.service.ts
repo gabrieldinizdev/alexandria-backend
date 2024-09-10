@@ -7,13 +7,9 @@ import {
 import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
-import { SelectModelFieldsType } from '@/shared/types';
+import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
 import { UpdateOneCustomerByIdDTO } from './dtos';
 import { CreateOneCustomerDTO } from './dtos/create-one-customer.dto';
@@ -30,14 +26,10 @@ export class CustomersService {
     return hash;
   }
 
-  public async findAll(
-    {
-      pagination: { page = 1, size = 5 },
-    }: {
-      pagination: PaginationOptionsDTO;
-    },
-    fields?: SelectModelFieldsType<Customer>,
-  ) {
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+    fields,
+  }: CommonFilter<Customer>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };

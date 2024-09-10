@@ -2,13 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Cart } from '@prisma/client';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
-import { SelectModelFieldsType } from '@/shared/types';
+import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
 import { CreateOneCartDTO } from './dto/create-one-cart.dto';
 import { UpdateOneCartByIdDTO } from './dto/update-one-cart.dto';
@@ -23,8 +19,10 @@ export class CartService {
     const data = await this.prismaService.cart.create({
       data: {
         active: true,
-        total: 0,
         customerId,
+      },
+      include: {
+        items: true,
       },
     });
 
@@ -33,14 +31,10 @@ export class CartService {
     };
   }
 
-  public async findAll(
-    {
-      pagination: { page = 1, size = 5 },
-    }: {
-      pagination: PaginationOptionsDTO;
-    },
-    fields?: SelectModelFieldsType<Cart>,
-  ) {
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+    fields,
+  }: CommonFilter<Cart>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };
@@ -81,16 +75,18 @@ export class CartService {
   }
 
   public async updateOneById(id: string, dto: UpdateOneCartByIdDTO) {
-    const { customerId, active, total } = dto;
+    const { active, total } = dto;
 
     const data = await this.prismaService.cart.update({
       data: {
-        customerId,
         active,
         total,
       },
       where: {
         id,
+      },
+      include: {
+        items: true,
       },
     });
 

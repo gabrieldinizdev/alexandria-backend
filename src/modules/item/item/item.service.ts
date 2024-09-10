@@ -1,26 +1,115 @@
-import { Injectable } from '@nestjs/common';
-import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import { Item } from '@prisma/client';
+
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PrismaService } from '@/shared/prisma';
+import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
+
+import { CreateOneItemDTO, UpdateOneItemByIdDTO } from './dto';
 
 @Injectable()
 export class ItemService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  public constructor(private readonly prismaService: PrismaService) {}
+
+  public async createOne(dto: CreateOneItemDTO) {
+    const { cartId, productId, quantity } = dto;
+
+    const product = await this.prismaService.product.findUnique({
+      where: {
+        id: productId,
+      },
+    });
+
+    const price = product.price * quantity;
+
+    const data = await this.prismaService.item.create({
+      data: {
+        price,
+        quantity,
+        productId,
+        cartId,
+      },
+    });
+
+    return { data };
   }
 
-  findAll() {
-    return `This action returns all item`;
+  public async findAll({
+    pagination: { page = 1, size = 5 },
+    fields,
+  }: CommonFilter<Item>) {
+    const filter = {
+      OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
+    };
+
+    const total = await this.prismaService.item.count({
+      where: filter,
+    });
+
+    page = +page;
+    size = +size;
+
+    const data = await this.prismaService.item.findMany({
+      skip: (page - 1) * size,
+      take: size,
+      select: fields,
+      where: filter,
+    });
+
+    const meta = new PaginationMetaDTO({ page, size, total });
+
+    const pagination = new PaginationDTO(data, meta);
+
+    return pagination;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  public async findOneById(id: string, fields?: SelectModelFieldsType<Item>) {
+    const data = await this.prismaService.item.findUnique({
+      where: {
+        id,
+      },
+      select: fields,
+    });
+
+    if (!data) throw new NotFoundException('Item not found.');
+
+    return {
+      data,
+    };
   }
 
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
+  public async updateOneById(id: string, dto: UpdateOneItemByIdDTO) {
+    const { cartId, quantity } = dto;
+
+    const data = await this.prismaService.item.update({
+      data: {
+        quantity,
+      },
+      where: {
+        id,
+        cartId,
+      },
+    });
+
+    if (!data) throw new NotFoundException('Item not found.');
+
+    return {
+      data,
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  public async deleteOneById(id: string) {
+    const data = await this.prismaService.item.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!data) throw new NotFoundException('Item not found.');
+
+    return {
+      data,
+    };
   }
 }

@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import {
-  PaginationDTO,
-  PaginationMetaDTO,
-  PaginationOptionsDTO,
-} from '@/shared/dto/pagination';
+import { Category } from '@prisma/client';
+
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
 import { PrismaService } from '@/shared/prisma';
+import { CommonFilter } from '@/shared/types';
 
 import { CreateOneCategoryDTO } from './dtos';
 import { UpdateOneCategoryByIdDTO } from './dtos/update-one-category-by-id.dto';
@@ -29,9 +28,7 @@ export class CategoryService {
 
   public async findAll({
     pagination: { page = 1, size = 5 },
-  }: {
-    pagination: PaginationOptionsDTO;
-  }) {
+  }: CommonFilter<Category>) {
     const filter = {
       OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
     };

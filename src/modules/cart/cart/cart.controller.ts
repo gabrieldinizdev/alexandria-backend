@@ -83,7 +83,7 @@ export class CartController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Cart response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
@@ -97,7 +97,10 @@ export class CartController {
     @Query('select', new SelectFieldsPipe())
     select: SelectModelFieldsType<Cart>,
   ) {
-    return this.cartService.findAll({ pagination }, select);
+    return this.cartService.findAll({
+      pagination,
+      fields: select,
+    });
   }
 
   @ApiOperation({
@@ -159,7 +162,7 @@ export class CartController {
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
-  public async updateByOneId(
+  public async updateOneById(
     @Param() { id }: FindOneCartByIdDTO,
     @Body() updateCartDto: UpdateOneCartByIdDTO,
   ) {

@@ -93,14 +93,14 @@ model Item {
 
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.ObjectId
-  cart      Cart    @relation(fields: [cartId], references: [id])
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String  @db.ObjectId
 }
 
 model Cart {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId
   active Boolean
-  total  Float
+  total  Float   @default(0)
   items  Item[]
 
   createdAt DateTime  @default(now())
