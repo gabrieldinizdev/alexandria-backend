@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { PaginationOptionsDTO } from '@/shared/dto/pagination';
+import { PaginationOptionsDTO } from '@/shared/dtos';
 import {
   InvalidEntriesResponseDTO,
   UnauthorizedResponseDTO,

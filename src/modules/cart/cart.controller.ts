@@ -18,11 +18,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { Item } from '@prisma/client';
+import { Cart } from '@prisma/client';
 
 import { AuthGuard } from '@/modules/auth/auth.guard';
-import { PaginationOptionsDTO } from '@/shared/dto/pagination';
-import { SelectFieldsDTO } from '@/shared/dto/select-fields';
+import { PaginationOptionsDTO, SelectFieldsDTO } from '@/shared/dtos';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
 import {
   InvalidEntriesResponseDTO,
@@ -31,124 +30,118 @@ import {
 } from '@/shared/responses/common';
 import { SelectModelFieldsType } from '@/shared/types';
 
-import {
-  CreateOneItemDTO,
-  FindOneItemByIdDTO,
-  ItemDTO,
-  UpdateOneItemByIdDTO,
-} from './dto';
-import { ItemService } from './item.service';
-import {
-  CreatedOneItemResponseDTO,
-  DeletedOneItemResponseDTO,
-  FoundAllItemResponseDTO,
-  FoundOneItemResponseDTO,
-  UpdatedOneItemResponseDTO,
-} from './responses';
+import { CartService } from './cart.service';
+import { CartDTO, FindOneCartByIdDTO } from './dtos';
+import { CreateOneCartDTO, UpdateOneCartByIdDTO } from './dtos';
+import { FoundAllCartResponseDTO } from './responses';
+import { CreatedOneCartResponseDTO } from './responses/created-one-cart.dto';
+import { DeletedOneCartResponseDTO } from './responses/deleted-one-cart.dto';
+import { FoundOneCartResponseDTO } from './responses/found-one-cart.dto';
+import { UpdatedOneCartResponseDTO } from './responses/updated-one-cart.dto';
 
 @ApiBearerAuth()
-@ApiTags('Item')
-@Controller('item')
-export class ItemController {
-  constructor(private readonly itemService: ItemService) {}
+@ApiTags('Cart')
+@Controller('cart')
+export class CartController {
+  constructor(private readonly cartService: CartService) {}
 
   @ApiOperation({
-    description: 'Create item with required fields',
+    description: 'Create cart with required fields',
     summary: 'Create One',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'Item response object',
-    type: CreatedOneItemResponseDTO,
+    description: 'Cart response object',
+    type: CreatedOneCartResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Bad request response Object',
+    description: 'Login Response Bad Request Object',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Post()
-  public async createOne(@Body() createItemDTO: CreateOneItemDTO) {
-    return this.itemService.createOne(createItemDTO);
+  public async createOne(@Body() createCartDTO: CreateOneCartDTO) {
+    return this.cartService.createOne(createCartDTO);
   }
 
   @ApiOperation({
-    description: 'Find all items in cart with pagination',
+    description: 'Find all carts with pagination',
     summary: 'Find All',
   })
   @ApiResponse({
-    description: 'Find all items in cart response',
-    type: FoundAllItemResponseDTO,
+    description: 'Find all carts response',
+    type: FoundAllCartResponseDTO,
     status: HttpStatus.OK,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Items response object',
+    description: 'Cart response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
     name: 'select',
-    type: SelectFieldsDTO<ItemDTO>,
+    type: SelectFieldsDTO<CartDTO>,
   })
   @UseGuards(AuthGuard)
   @Get()
-  public async findAll(
+  findAll(
     @Query() pagination: PaginationOptionsDTO,
     @Query('select', new SelectFieldsPipe())
-    select: SelectModelFieldsType<Item>,
+    select: SelectModelFieldsType<Cart>,
   ) {
-    return this.itemService.findAll({
+    return this.cartService.findAll({
       pagination,
       fields: select,
     });
   }
 
   @ApiOperation({
-    description: 'Get one item by id',
+    description: 'Get one cart by id',
     summary: 'Find One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Item response object',
-    type: FoundOneItemResponseDTO,
+    description: 'Cart response object',
+    type: FoundOneCartResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Not found item response object',
+    description: 'Cart response object',
     type: RecordNotFoundDTO,
   })
   @ApiQuery({
     name: 'select',
-    type: SelectFieldsDTO<ItemDTO>,
+    type: SelectFieldsDTO<CartDTO>,
   })
   @UseGuards(AuthGuard)
   @Get(':id')
-  public async findOne(
-    @Param() { id }: FindOneItemByIdDTO,
+  public async findOneById(
+    @Param() { id }: FindOneCartByIdDTO,
     @Query('select', new SelectFieldsPipe())
-    select: SelectModelFieldsType<Item>,
+    select: SelectModelFieldsType<Cart>,
   ) {
-    return await this.itemService.findOneById(id, select);
+    return await this.cartService.findOneById(id, select);
   }
 
   @ApiOperation({
-    description: 'Update item with required fields',
+    description: 'Update cart with required fields',
     summary: 'Update One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Item response object',
-    type: UpdatedOneItemResponseDTO,
+    description: 'Cart response object',
+    type: UpdatedOneCartResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
@@ -167,36 +160,35 @@ export class ItemController {
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
-  @Patch(':id')
   public async updateOneById(
-    @Param() { id }: FindOneItemByIdDTO,
-    @Body() updateItemDto: UpdateOneItemByIdDTO,
+    @Param() { id }: FindOneCartByIdDTO,
+    @Body() updateCartDto: UpdateOneCartByIdDTO,
   ) {
-    return this.itemService.updateOneById(id, updateItemDto);
+    return await this.cartService.updateOneById(id, updateCartDto);
   }
 
   @ApiOperation({
-    description: 'Delete item by ID',
+    description: 'Delete cart by ID',
     summary: 'Delete One',
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Item response object',
-    type: DeletedOneItemResponseDTO,
+    description: 'Cart response object',
+    type: DeletedOneCartResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Not response object',
+    description: 'Cart response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
   @Delete(':id')
-  public async deleteOneById(@Param() { id }: FindOneItemByIdDTO) {
-    return this.itemService.deleteOneById(id);
+  public async deleteOneById(@Param() { id }: FindOneCartByIdDTO) {
+    return this.cartService.deleteOneById(id);
   }
 }

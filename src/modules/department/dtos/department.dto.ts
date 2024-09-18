@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IsString, MaxLength } from 'class-validator';
 
-import { CommonFieldsDTO } from '@/shared/dto';
+import { CommonFieldsDTO } from '@/shared/dtos';
 
 export class DepartmentDTO extends CommonFieldsDTO {
   @IsString()

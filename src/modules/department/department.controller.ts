@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { PaginationOptionsDTO } from '@/shared/dto/pagination';
+import { PaginationOptionsDTO } from '@/shared/dtos';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
@@ -30,7 +30,7 @@ import {
   CreateOneDepartmentDTO,
   FindOneDepartmentByIdDTO,
   UpdateOneDepartmentByIdDTO,
-} from './dto';
+} from './dtos';
 import {
   CreatedOneDepartmentResponseDTO,
   DeletedOneDepartmentResponseDTO,

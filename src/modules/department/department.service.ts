@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Department } from '@prisma/client';
 
-import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter } from '@/shared/types';
 
-import { CreateOneDepartmentDTO, UpdateOneDepartmentByIdDTO } from './dto';
+import { CreateOneDepartmentDTO, UpdateOneDepartmentByIdDTO } from './dtos';
 
 @Injectable()
 export class DepartmentService {

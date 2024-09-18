@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IsNumber } from 'class-validator';
 
-import { CommonFieldsLinksTableDTO } from '@/shared/dto/commom-fields-in-links-table.dto';
+import { CommonFieldsLinksTableDTO } from '@/shared/dtos';
 
 export class ProductOnStockDTO extends CommonFieldsLinksTableDTO {
   @IsNumber()

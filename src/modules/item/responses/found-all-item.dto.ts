@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationMetaDTO } from '@/shared/dtos';
 
-import { ItemDTO } from '../dto';
+import { ItemDTO } from '../dtos';
 
 export class FoundAllItemResponseDTO {
   @ApiProperty({

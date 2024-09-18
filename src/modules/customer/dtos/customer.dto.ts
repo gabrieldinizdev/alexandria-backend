@@ -8,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { CommonFieldsDTO } from '@/shared/dto';
+import { CommonFieldsDTO } from '@/shared/dtos';
 
 export class CustomerDTO extends CommonFieldsDTO {
   @ApiProperty({

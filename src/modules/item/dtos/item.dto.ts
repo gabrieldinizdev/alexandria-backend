@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IsMongoId, IsNumber } from 'class-validator';
 
-import { CommonFieldsDTO } from '@/shared/dto';
+import { CommonFieldsDTO } from '@/shared/dtos';
 
 export class ItemDTO extends CommonFieldsDTO {
   @ApiProperty({

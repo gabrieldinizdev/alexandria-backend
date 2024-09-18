@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Stock } from '@prisma/client';
 
-import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos/pagination';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter } from '@/shared/types';
 

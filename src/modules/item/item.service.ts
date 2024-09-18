@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Item } from '@prisma/client';
 
-import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos/pagination';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
-import { CreateOneItemDTO, UpdateOneItemByIdDTO } from './dto';
+import { CreateOneItemDTO, UpdateOneItemByIdDTO } from './dtos';
 
 @Injectable()
 export class ItemService {

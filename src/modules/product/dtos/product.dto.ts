@@ -8,7 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-import { CommonFieldsDTO } from '@/shared/dto';
+import { CommonFieldsDTO } from '@/shared/dtos';
 
 export class ProductDTO extends CommonFieldsDTO {
   @IsString()

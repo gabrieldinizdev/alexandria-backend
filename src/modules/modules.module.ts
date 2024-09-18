@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 
+import { RedisModule } from '@/shared/providers/cache/redis/redis.module';
+
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
 import { CategoryModule } from './category/category.module';
 import { CustomersModule } from './customer/customer.module';
 import { DepartmentModule } from './department/department.module';
+import { ItemModule } from './item/item.module';
 import { ProductModule } from './product/product.module';
-import { RedisModule } from './redis/redis.module';
 import { StockModule } from './stock/stock.module';
-import { CartModule } from './cart/cart/cart.module';
-import { ItemModule } from './item/item/item.module';
 
 @Module({
   imports: [

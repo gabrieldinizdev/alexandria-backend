@@ -2,12 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Cart } from '@prisma/client';
 
-import { PaginationDTO, PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
-import { CreateOneCartDTO } from './dto/create-one-cart.dto';
-import { UpdateOneCartByIdDTO } from './dto/update-one-cart.dto';
+import { CreateOneCartDTO, UpdateOneCartByIdDTO } from './dtos';
 
 @Injectable()
 export class CartService {

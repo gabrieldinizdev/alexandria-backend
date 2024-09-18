@@ -20,7 +20,7 @@ import {
 
 import { Customer } from '@prisma/client';
 
-import { PaginationOptionsDTO } from '@/shared/dto/pagination/pagination-options.dto';
+import { PaginationOptionsDTO } from '@/shared/dtos';
 import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
 import {
   InvalidEntriesResponseDTO,

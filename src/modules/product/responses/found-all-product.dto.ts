@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PaginationMetaDTO } from '@/shared/dto/pagination/pagination-meta.dto';
+import { PaginationMetaDTO } from '@/shared/dtos';
 
 import { ProductDTO } from '../dtos';
 

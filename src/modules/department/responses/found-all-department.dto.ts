@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PaginationMetaDTO } from '@/shared/dto/pagination';
+import { PaginationMetaDTO } from '@/shared/dtos';
 
-import { DepartmentDTO } from '../dto';
+import { DepartmentDTO } from '../dtos';
 
 export class FoundAllDepartmentResponseDTO {
   @ApiProperty({ type: DepartmentDTO, isArray: true })
