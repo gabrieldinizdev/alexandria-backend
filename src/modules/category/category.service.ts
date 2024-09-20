@@ -6,8 +6,7 @@ import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter } from '@/shared/types';
 
-import { CreateOneCategoryDTO } from './dtos';
-import { UpdateOneCategoryByIdDTO } from './dtos/update-one-category-by-id.dto';
+import { CreateOneCategoryDTO, UpdateOneCategoryByIdDTO } from './dtos';
 
 @Injectable()
 export class CategoryService {

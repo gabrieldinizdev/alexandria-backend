@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CartStub } from '@/stubs/cart';
+import { CartStub } from '@/stubs';
 
 export class CreatedOneCartResponseDTO {
   @ApiProperty({

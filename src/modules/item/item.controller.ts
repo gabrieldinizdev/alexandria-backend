@@ -20,14 +20,14 @@ import {
 
 import { Item } from '@prisma/client';
 
-import { AuthGuard } from '@/modules/auth/auth.guard';
 import { PaginationOptionsDTO, SelectFieldsDTO } from '@/shared/dtos';
-import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import { AuthGuard } from '@/shared/guards';
+import { SelectFieldsPipe } from '@/shared/pipes';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
   UnauthorizedResponseDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 import { SelectModelFieldsType } from '@/shared/types';
 
 import {

@@ -10,7 +10,7 @@ import {
 import { Prisma } from '@prisma/client';
 
 import { ErrorResponse } from '@/shared/types';
-import { getPrismaKnownExceptionStatus } from '@/shared/utils/prisma-known-exception-status';
+import { getPrismaKnownExceptionStatus } from '@/shared/utils';
 
 @Catch()
 export class HttpExceptionFilter<T> implements ExceptionFilter {

@@ -20,24 +20,26 @@ import {
 
 import { Cart } from '@prisma/client';
 
-import { AuthGuard } from '@/modules/auth/auth.guard';
 import { PaginationOptionsDTO, SelectFieldsDTO } from '@/shared/dtos';
-import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import { AuthGuard } from '@/shared/guards';
+import { SelectFieldsPipe } from '@/shared/pipes';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
   UnauthorizedResponseDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 import { SelectModelFieldsType } from '@/shared/types';
 
 import { CartService } from './cart.service';
 import { CartDTO, FindOneCartByIdDTO } from './dtos';
 import { CreateOneCartDTO, UpdateOneCartByIdDTO } from './dtos';
-import { FoundAllCartResponseDTO } from './responses';
-import { CreatedOneCartResponseDTO } from './responses/created-one-cart.dto';
-import { DeletedOneCartResponseDTO } from './responses/deleted-one-cart.dto';
-import { FoundOneCartResponseDTO } from './responses/found-one-cart.dto';
-import { UpdatedOneCartResponseDTO } from './responses/updated-one-cart.dto';
+import {
+  CreatedOneCartResponseDTO,
+  DeletedOneCartResponseDTO,
+  FoundAllCartResponseDTO,
+  FoundOneCartResponseDTO,
+  UpdatedOneCartResponseDTO,
+} from './responses';
 
 @ApiBearerAuth()
 @ApiTags('Cart')

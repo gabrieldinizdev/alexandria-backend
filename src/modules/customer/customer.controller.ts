@@ -20,25 +20,24 @@ import {
 
 import { Customer } from '@prisma/client';
 
-import { PaginationOptionsDTO } from '@/shared/dtos';
-import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import { PaginationOptionsDTO, SelectFieldsDTO } from '@/shared/dtos';
+import { AuthGuard } from '@/shared/guards';
+import { SelectFieldsPipe } from '@/shared/pipes';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
   UnauthorizedResponseDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { AuthGuard } from '../auth/auth.guard';
 import { CustomersService } from './customer.service';
 import {
   CreateOneCustomerDTO,
   CustomerDTO,
   FindOneCustomerByEmailDTO,
-  SelectFieldsDTO,
+  FindOneCustomerByIdDTO,
   UpdateOneCustomerByIdDTO,
 } from './dtos';
-import { FindOneCustomerByIdDTO } from './dtos/find-one-customer-by-id.dto';
 import {
   CreatedOneCustomerResponseDTO,
   DeletedOneCustomerResponseDTO,

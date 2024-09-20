@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IsBoolean, IsMongoId, IsNumber } from 'class-validator';
 
-import type { ItemDTO } from '@/modules/item/dtos/item.dto';
+import { ItemDTO } from '@/modules/item';
 import { CommonFieldsDTO } from '@/shared/dtos';
 
 export class CartDTO extends CommonFieldsDTO {

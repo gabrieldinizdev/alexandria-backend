@@ -7,12 +7,11 @@ import {
 import { Customer } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos/pagination';
+import { PaginationDTO, PaginationMetaDTO } from '@/shared/dtos';
 import { PrismaService } from '@/shared/prisma';
 import { CommonFilter, SelectModelFieldsType } from '@/shared/types';
 
-import { UpdateOneCustomerByIdDTO } from './dtos';
-import { CreateOneCustomerDTO } from './dtos/create-one-customer.dto';
+import { CreateOneCustomerDTO, UpdateOneCustomerByIdDTO } from './dtos';
 
 @Injectable()
 export class CustomersService {

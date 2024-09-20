@@ -18,8 +18,8 @@ import {
 } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dtos';
+import { AuthGuard } from '@/shared/guards';
 
-import { AuthGuard } from '../auth/auth.guard';
 import {
   CreateOneStockDTO,
   FindOneStockByIdDTO,

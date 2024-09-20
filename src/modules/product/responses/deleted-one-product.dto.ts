@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductStubWithDeletedAt } from '@/stubs/product';
+import { ProductStubWithDeletedAt } from '@/stubs';
 
 export class DeletedOneProductResponseDTO {
   @ApiProperty({

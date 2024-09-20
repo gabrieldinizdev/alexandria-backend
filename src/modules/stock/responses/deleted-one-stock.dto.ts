@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { StockStubWithDeletedAt } from '@/stubs/stock';
+import { StockStubWithDeletedAt } from '@/stubs';
 
 export class DeletedOneStockResponseDTO {
   @ApiProperty({

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { StockStub } from '@/stubs/stock';
+import { StockStub } from '@/stubs';
 
 export class FoundOneStockByIdResponseDTO {
   @ApiProperty({

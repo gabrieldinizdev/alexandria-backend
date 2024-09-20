@@ -2,3 +2,8 @@ export * from './category';
 export * from './customer';
 export * from './department';
 export * from './login';
+export * from './cart';
+export * from './item';
+export * from './stock';
+export * from './product';
+export * from './product-on-stock';

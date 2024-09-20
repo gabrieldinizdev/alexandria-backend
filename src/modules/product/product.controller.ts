@@ -21,15 +21,15 @@ import {
 import { Product } from '@prisma/client';
 
 import { PaginationOptionsDTO, SelectFieldsDTO } from '@/shared/dtos';
-import { SelectFieldsPipe } from '@/shared/pipes/select-fields/select-fields.pipe';
+import { AuthGuard } from '@/shared/guards';
+import { SelectFieldsPipe } from '@/shared/pipes';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
   UnauthorizedResponseDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { AuthGuard } from '../auth/auth.guard';
 import {
   CreateOneProductDTO,
   CreateOneProductOnStockDTO,

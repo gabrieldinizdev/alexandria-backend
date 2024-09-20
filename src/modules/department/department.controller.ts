@@ -18,13 +18,13 @@ import {
 } from '@nestjs/swagger';
 
 import { PaginationOptionsDTO } from '@/shared/dtos';
+import { AuthGuard } from '@/shared/guards';
 import {
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
   UnauthorizedResponseDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 
-import { AuthGuard } from '../auth/auth.guard';
 import { DepartmentService } from './department.service';
 import {
   CreateOneDepartmentDTO,

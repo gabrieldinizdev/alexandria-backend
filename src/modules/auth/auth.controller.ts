@@ -2,15 +2,15 @@ import { Body, Controller, HttpStatus, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
+  NodemailerService,
   ResetPasswordDTO,
   VerificationCodeDTO,
-} from '@/shared/providers/email/nodemailer/dtos';
-import { NodemailerService } from '@/shared/providers/email/nodemailer/nodemailer.service';
+} from '@/shared/providers';
 import {
   ConflictResponseDTO,
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 
 import { AuthService } from './auth.service';
 import { SignInDTO, SignUpDTO } from './dtos';

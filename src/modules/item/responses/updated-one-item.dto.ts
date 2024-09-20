@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ItemStub } from '@/stubs/item';
+import { ItemStub } from '@/stubs';
 
 export class UpdatedOneItemResponseDTO {
   @ApiProperty({
