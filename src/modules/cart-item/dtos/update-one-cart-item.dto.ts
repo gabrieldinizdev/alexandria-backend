@@ -1,9 +1,9 @@
 import { OmitType, PartialType } from '@nestjs/swagger';
 
-import { ItemDTO } from './item.dto';
+import { CartItemDTO } from './cart-item.dto';
 
-export class UpdateOneItemByIdDTO extends PartialType(
-  OmitType(ItemDTO, [
+export class UpdateOneCartItemByIdDTO extends PartialType(
+  OmitType(CartItemDTO, [
     'id',
     'price',
     'productId',
