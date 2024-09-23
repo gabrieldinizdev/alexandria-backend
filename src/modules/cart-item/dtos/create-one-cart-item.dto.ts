@@ -2,11 +2,13 @@ import { IntersectionType, PickType } from '@nestjs/swagger';
 
 import { IsNotEmpty } from 'class-validator';
 
-import { ItemDTO } from './item.dto';
+import { CartItemDTO } from './cart-item.dto';
 
-class DefaultCreatedItemDTO extends PickType(ItemDTO, ['cartId'] as const) {}
+class DefaultCreatedCartItemDTO extends PickType(CartItemDTO, [
+  'cartId',
+] as const) {}
 
-class NewCreateItemDTO extends PickType(ItemDTO, [
+class NewCreateCartItemDTO extends PickType(CartItemDTO, [
   'cartId',
   'productId',
   'quantity',
@@ -21,7 +23,7 @@ class NewCreateItemDTO extends PickType(ItemDTO, [
   public readonly quantity: number;
 }
 
-export class CreateOneItemDTO extends IntersectionType(
-  DefaultCreatedItemDTO,
-  NewCreateItemDTO,
+export class CreateOneCartItemDTO extends IntersectionType(
+  DefaultCreatedCartItemDTO,
+  NewCreateCartItemDTO,
 ) {}

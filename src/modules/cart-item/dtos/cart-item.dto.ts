@@ -4,7 +4,7 @@ import { IsMongoId, IsNumber } from 'class-validator';
 
 import { CommonFieldsDTO } from '@/shared/dtos';
 
-export class ItemDTO extends CommonFieldsDTO {
+export class CartItemDTO extends CommonFieldsDTO {
   @ApiProperty({
     description: 'Item price',
     example: 100.0,

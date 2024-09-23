@@ -1,4 +1,4 @@
-export type ItemStubType = {
+export type CartItemStubType = {
   id: string;
   price: number;
   quantity: number;
@@ -8,7 +8,7 @@ export type ItemStubType = {
   deletedAt?: string;
 };
 
-export const ItemStub: ItemStubType = {
+export const CartItemStub: CartItemStubType = {
   id: '669543757fcd695893969290',
   price: 100.0,
   quantity: 10,
@@ -18,7 +18,7 @@ export const ItemStub: ItemStubType = {
   deletedAt: null,
 };
 
-export const ItemStubWithDeletedAt = {
+export const CartItemStubWithDeletedAt = {
   id: '669543757fcd695893969290',
   price: 100.0,
   quantity: 10,

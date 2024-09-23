@@ -1,10 +1,10 @@
-import { ItemStub, ItemStubType } from '../item';
+import { CartItemStub, CartItemStubType } from '../cart-item';
 
 export type CartStubType = {
   id: string;
   active: boolean;
   total: number;
-  items: ItemStubType[];
+  items: CartItemStubType[];
   customerId: string;
   createdAt: string;
   updatedAt: string;
@@ -15,7 +15,7 @@ export const CartStub: CartStubType = {
   id: '669543757fcd695893969290',
   active: true,
   total: 1000.0,
-  items: [ItemStub],
+  items: [CartItemStub],
   customerId: '669543757fcd695893969290',
   createdAt: '2024-07-15T15:27:15.700Z',
   updatedAt: '2024-07-15T15:27:15.700Z',
@@ -26,7 +26,7 @@ export const CartStubWithDeletedAt: CartStubType = {
   id: '669543757fcd695893969290',
   active: true,
   total: 1000.0,
-  items: [ItemStub],
+  items: [CartItemStub],
   customerId: '669543757fcd695893969290',
   createdAt: '2024-07-15T15:27:15.700Z',
   updatedAt: '2024-07-15T15:27:15.700Z',

@@ -4,10 +4,10 @@ import { RedisModule } from '@/shared/providers';
 
 import { AuthModule } from './auth';
 import { CartModule } from './cart';
+import { ItemModule } from './cart-item';
 import { CategoryModule } from './category';
 import { CustomersModule } from './customer';
 import { DepartmentModule } from './department';
-import { ItemModule } from './item';
 import { ProductModule } from './product';
 import { StockModule } from './stock';
 

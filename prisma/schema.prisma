@@ -58,7 +58,7 @@ model Product {
   category    Category           @relation(fields: [categoryId], references: [id])
   categoryId  String             @db.ObjectId
   stocks      ProductsOnStocks[]
-  items       Item[]
+  items       CartItem[]
 }
 
 model Stock {
@@ -82,7 +82,7 @@ model ProductsOnStocks {
   @@unique([productId, stockId])
 }
 
-model Item {
+model CartItem {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   price    Float
   quantity Int
@@ -98,10 +98,10 @@ model Item {
 }
 
 model Cart {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  id     String     @id @default(auto()) @map("_id") @db.ObjectId
   active Boolean
-  total  Float   @default(0)
-  items  Item[]
+  total  Float      @default(0)
+  items  CartItem[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
