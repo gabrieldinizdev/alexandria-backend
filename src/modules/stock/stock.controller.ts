@@ -19,6 +19,7 @@ import {
 
 import { PaginationOptionsDTO } from '@/shared/dtos';
 import { AuthGuard } from '@/shared/guards';
+import { UnauthorizedResponseDTO } from '@/shared/responses';
 
 import {
   CreateOneStockDTO,
@@ -49,6 +50,11 @@ export class StockController {
     description: 'Stock response object',
     type: CreatedOneStockResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Stock unauthorized response object',
+    type: UnauthorizedResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Post()
   async createOne(@Body() dto: CreateOneStockDTO) {
@@ -63,6 +69,11 @@ export class StockController {
     status: HttpStatus.OK,
     description: 'Stock response object',
     type: FoundAllStockResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Stock unauthorized response object',
+    type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Get()
@@ -81,6 +92,11 @@ export class StockController {
     description: 'Stock response object',
     type: FoundOneStockByIdResponseDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Stock unauthorized response object',
+    type: UnauthorizedResponseDTO,
+  })
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOneById(@Param() { id }: FindOneStockByIdDTO) {
@@ -95,6 +111,11 @@ export class StockController {
     status: HttpStatus.OK,
     description: 'Stock response object',
     type: UpdatedOneStockResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Stock unauthorized response object',
+    type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Patch(':id')
@@ -113,6 +134,11 @@ export class StockController {
     status: HttpStatus.OK,
     description: 'Stock response object',
     type: DeletedOneStockResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Stock unauthorized response object',
+    type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Delete(':id')

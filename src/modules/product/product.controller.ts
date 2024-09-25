@@ -63,12 +63,12 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Product unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -88,7 +88,7 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Product unauthorized example response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
@@ -119,12 +119,12 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Product unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Product record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiQuery({
@@ -151,17 +151,17 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Product unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Product record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -184,12 +184,12 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Product unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Product record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
@@ -209,17 +209,17 @@ export class ProductController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Product record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)

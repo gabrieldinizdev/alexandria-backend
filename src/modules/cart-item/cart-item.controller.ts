@@ -62,12 +62,12 @@ export class CartItemController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart item unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Bad request response Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -87,7 +87,7 @@ export class CartItemController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Cart items response object',
+    description: 'Cart item unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiQuery({
@@ -118,12 +118,12 @@ export class CartItemController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart item unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Not found cart item response object',
+    description: 'Cart item record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiQuery({
@@ -151,17 +151,17 @@ export class CartItemController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart item unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Not found response object',
+    description: 'Cart item record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -184,12 +184,12 @@ export class CartItemController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized response object',
+    description: 'Cart item unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Not response object',
+    description: 'Cart item record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)

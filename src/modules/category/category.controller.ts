@@ -56,12 +56,12 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Category response object',
+    description: 'Invalid entries object',
     type: InvalidEntriesResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -81,7 +81,7 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -101,12 +101,12 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Category record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
@@ -126,17 +126,17 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Category record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -159,12 +159,12 @@ export class CategoryController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Category unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Category record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
