@@ -91,6 +91,12 @@ export class CustomersService {
 
   public async createOne(dto: CreateOneCustomerDTO) {
     const { email, password, name } = dto;
+    const existsCustomer = await this.findOneByEmail(email);
+
+    if (existsCustomer) {
+      throw new ConflictException('Email already exists');
+    }
+
     const hashedPassword = await this.hashPassword(password);
 
     const data = await this.prismaService.customer.create({

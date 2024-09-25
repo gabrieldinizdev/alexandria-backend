@@ -56,12 +56,12 @@ export class DepartmentController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Department unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -81,7 +81,7 @@ export class DepartmentController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Department unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -101,12 +101,12 @@ export class DepartmentController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Department unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Department record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
@@ -126,17 +126,17 @@ export class DepartmentController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Department unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Department record not found response object',
     type: RecordNotFoundDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Invalid entries example',
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
@@ -154,17 +154,17 @@ export class DepartmentController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Department response object',
+    description: 'Department delete response object',
     type: DeletedOneDepartmentResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Department unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Category response object',
+    description: 'Department record not found response object',
     type: RecordNotFoundDTO,
   })
   @UseGuards(AuthGuard)
