@@ -83,11 +83,20 @@ export class CartItemService {
   }
 
   public async updateOneById(id: string, dto: UpdateOneCartItemByIdDTO) {
-    const { cartId, quantity } = dto;
+    const { cartId, quantity, productId } = dto;
+
+    const product = await this.prismaService.product.findUnique({
+      where: {
+        id: productId,
+      },
+    });
+
+    const price = product.price * quantity;
 
     const data = await this.prismaService.cartItem.update({
       data: {
         quantity,
+        price,
       },
       where: {
         id,

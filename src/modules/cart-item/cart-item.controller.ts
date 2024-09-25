@@ -47,7 +47,7 @@ import {
 
 @ApiBearerAuth()
 @ApiTags('Cart Items')
-@Controller('item')
+@Controller('cart-item')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
@@ -165,7 +165,6 @@ export class CartItemController {
     type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
-  @Patch(':id')
   @Patch(':id')
   public async updateOneById(
     @Param() { id }: FindOneCartItemByIdDTO,
