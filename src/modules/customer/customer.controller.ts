@@ -63,12 +63,12 @@ export class CustomersController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Category response object',
+    description: 'Customer Unauthorized response object',
     type: UnauthorizedResponseDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Login Response Bad Request Object',
+    description: 'Customer Bad Request response Object',
     type: InvalidEntriesResponseDTO,
   })
   @Post()
