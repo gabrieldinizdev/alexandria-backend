@@ -16,7 +16,7 @@ import { getPrismaKnownExceptionStatus } from '@/shared/utils';
 export class HttpExceptionFilter<T> implements ExceptionFilter {
   private readonly logger: Logger = new Logger(HttpExceptionFilter.name);
 
-  catch(exception: T, host: ArgumentsHost): ErrorResponse {
+  public catch(exception: T, host: ArgumentsHost): ErrorResponse {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest<Request>();
@@ -51,6 +51,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
     }
     // * Exception if validation fails
     else if (exception instanceof Prisma.PrismaClientValidationError) {
+      statusCode = HttpStatus.BAD_REQUEST;
       message = exception.message;
     } else if (exception instanceof Error) {
       message = exception.message;

@@ -13,7 +13,7 @@ import * as bcrypt from 'bcrypt';
 
 import { SelectModelFieldsType } from '@/shared/types';
 
-import { CustomersService } from '../customer/customer.service';
+import { CustomersService } from '../customers/customers.service';
 import { SignInDTO } from './dtos/sign-in.dto';
 import { SignUpDTO } from './dtos/sign-up.dto';
 
@@ -40,17 +40,17 @@ export class AuthService {
     try {
       const { data } = await this.customerService.findOneByEmail(email, select);
       customer = data;
-    } catch (error: any) {
+    } catch (error) {
       if (error.status === HttpStatus.NOT_FOUND) {
-        this.logger.error('customer not found');
-        throw new UnauthorizedException('Credentials are invalid');
+        this.logger.error('The customer was not found');
+        throw new UnauthorizedException('The credentials are invalid');
       }
     }
 
     const isMatch = await bcrypt.compare(password, customer.password);
 
     if (!isMatch) {
-      throw new UnauthorizedException('Credentials are invalid');
+      throw new UnauthorizedException('The credentials are invalid');
     }
 
     const expiresIn = this.configService.get('JWT_EXPIRES_IN');
@@ -71,13 +71,13 @@ export class AuthService {
   public async signUp(dto: SignUpDTO) {
     try {
       await this.customerService.verifyEmailExistence(dto.email);
-    } catch (error: any) {
+    } catch (error) {
       if (error.status === HttpStatus.CONFLICT) {
         this.logger.error('Email already exists');
         throw new ConflictException('Customer already exists');
       }
     }
-
+    console.log('oi');
     const { data } = await this.customerService.createOne(dto);
 
     delete data.password;

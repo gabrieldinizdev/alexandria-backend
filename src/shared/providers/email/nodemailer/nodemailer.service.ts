@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import Handlebars from 'handlebars';
 import * as nodemailer from 'nodemailer';
 
-import { CustomersService } from '@/modules/customer/customer.service';
+import { CustomersService } from '@/modules/customers/customers.service';
 import { RedisService } from '@/shared/providers/cache/redis/redis.service';
 import { generateCode } from '@/shared/utils';
 import { forgotPasswordTemplate } from '@/templates/auth';

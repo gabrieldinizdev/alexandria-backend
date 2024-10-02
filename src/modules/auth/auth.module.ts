@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { NodemailerModule, RedisModule } from '@/shared/providers';
 
-import { CustomersModule } from '../customer/customer.module';
+import { CustomersModule } from '../customers/customers.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 

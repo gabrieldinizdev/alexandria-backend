@@ -84,7 +84,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Verification code response bad request object',
+    description: 'Verification code bad request response object',
     type: InvalidEntriesResponseDTO,
   })
   @ApiResponse({

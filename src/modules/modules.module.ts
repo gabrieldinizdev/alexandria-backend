@@ -3,13 +3,13 @@ import { Module } from '@nestjs/common';
 import { RedisModule } from '@/shared/providers';
 
 import { AuthModule } from './auth';
-import { CartModule } from './cart';
-import { ItemModule } from './cart-item';
-import { CategoryModule } from './category';
-import { CustomersModule } from './customer';
-import { DepartmentModule } from './department';
-import { ProductModule } from './product';
-import { StockModule } from './stock';
+import { ItemModule } from './cart-items';
+import { CartModule } from './carts';
+import { CategoryModule } from './categories';
+import { CustomersModule } from './customers';
+import { DepartmentModule } from './departments';
+import { ProductModule } from './products';
+import { StockModule } from './stocks';
 
 @Module({
   imports: [
