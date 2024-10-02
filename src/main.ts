@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './shared/filters/http-exception';
+import { HttpExceptionFilter } from './shared/filters';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');

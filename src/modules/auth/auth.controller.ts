@@ -2,15 +2,18 @@ import { Body, Controller, HttpStatus, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
+  NodemailerService,
+  ResetPasswordDTO,
+  VerificationCodeDTO,
+} from '@/shared/providers';
+import {
   ConflictResponseDTO,
   InvalidEntriesResponseDTO,
   RecordNotFoundDTO,
-} from '@/shared/responses/common';
+} from '@/shared/responses';
 
 import { AuthService } from './auth.service';
-import { ResetPasswordDTO, VerificationCodeDTO } from './dtos';
-import { SignInDTO } from './dtos/sign-in.dto';
-import { SignUpDTO } from './dtos/sign-up.dto';
+import { SignInDTO, SignUpDTO } from './dtos';
 import {
   ForgotPasswordResponseDTO,
   LoginInvalidCredentialsResponseDTO,
@@ -22,7 +25,10 @@ import {
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  public constructor(private readonly authService: AuthService) {}
+  public constructor(
+    private readonly authService: AuthService,
+    private readonly nodemailerService: NodemailerService,
+  ) {}
 
   @ApiOperation({
     description: 'Login user with email and password',
@@ -78,7 +84,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Verification code response bad request object',
+    description: 'Verification code bad request response object',
     type: InvalidEntriesResponseDTO,
   })
   @ApiResponse({
@@ -93,7 +99,7 @@ export class AuthController {
   })
   @Post('forgot-password')
   public async sendVerificationCode(@Body() { email }: VerificationCodeDTO) {
-    return this.authService.sendVerificationCode({ email });
+    return this.nodemailerService.sendVerificationCode({ email });
   }
 
   @ApiOperation({
@@ -112,6 +118,6 @@ export class AuthController {
   })
   @Patch('reset-password')
   public async resetPassword(@Body() dto: ResetPasswordDTO) {
-    return this.authService.resetPassword(dto);
+    return this.nodemailerService.resetPassword(dto);
   }
 }

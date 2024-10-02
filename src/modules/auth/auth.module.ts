@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-import { CustomersModule } from '../customer/customer.module';
-import { RedisModule } from '../redis/redis.module';
+import { NodemailerModule, RedisModule } from '@/shared/providers';
+
+import { CustomersModule } from '../customers/customers.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
@@ -21,6 +22,7 @@ import { AuthService } from './auth.service';
 
     CustomersModule,
     RedisModule,
+    NodemailerModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
