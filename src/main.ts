@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './shared/filters';
+import { appConfiguration } from './utils/config';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -21,18 +21,6 @@ async function bootstrap() {
   const DESCRIPTION = 'The main API of "Alexandria"';
   const API_VERSION = '1.0';
 
-  app.enableCors();
-  app.setGlobalPrefix('api');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      stopAtFirstError: true,
-      whitelist: true,
-      transform: true,
-    }),
-  );
-
-  app.useGlobalFilters(new HttpExceptionFilter());
-
   if (nodeENV === 'production') {
     app.use(
       ['/docs', '/docs-json'],
@@ -42,6 +30,8 @@ async function bootstrap() {
       }),
     );
   }
+
+  appConfiguration(app);
 
   const config = new DocumentBuilder()
     .addBearerAuth()
