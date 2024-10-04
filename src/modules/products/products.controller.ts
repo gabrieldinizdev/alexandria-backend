@@ -134,6 +134,11 @@ export class ProductController {
     description: 'Record not found products response object',
     type: RecordNotFoundDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid entries response object',
+    type: InvalidEntriesResponseDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<ProductDTO>,

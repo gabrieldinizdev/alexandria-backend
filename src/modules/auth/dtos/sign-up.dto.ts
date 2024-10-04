@@ -14,6 +14,7 @@ export class SignUpDTO {
     description: 'Email to create account',
     minLength: 8,
     maxLength: 256,
+    example: 'john_doe@hotmail.com',
   })
   @MinLength(8)
   @MaxLength(100)
@@ -25,6 +26,7 @@ export class SignUpDTO {
     description: 'Password to create account',
     minLength: 6,
     maxLength: 256,
+    example: 'JohnDoe123*',
   })
   @MinLength(6)
   @MaxLength(512)

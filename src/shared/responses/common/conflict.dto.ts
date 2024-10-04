@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ConflictResponseDTO {
+class ConflictErrorResponse {
   @ApiProperty({
     description: 'Error message',
     example: 'Customer already exists',
@@ -9,14 +9,16 @@ export class ConflictResponseDTO {
   public readonly message: string;
 
   @ApiProperty({
-    description: 'Error Type',
-    example: 'Conflict',
-  })
-  public readonly error: string;
-
-  @ApiProperty({
     description: 'Error Status Code',
     example: HttpStatus.CONFLICT,
   })
   public readonly statusCode: HttpStatus.CONFLICT;
+}
+
+export class ConflictResponseDTO {
+  @ApiProperty({
+    description: 'Error Status Code',
+    example: ConflictErrorResponse,
+  })
+  public readonly error: ConflictErrorResponse;
 }
