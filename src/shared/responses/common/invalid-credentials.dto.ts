@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UnauthorizedResponseDTO {
+class UnauthorizedErrorResponse {
   @ApiProperty({
     description: 'Error message',
     example: 'Unauthorized',
@@ -12,5 +12,13 @@ export class UnauthorizedResponseDTO {
     description: 'Error Status Code',
     example: HttpStatus.UNAUTHORIZED,
   })
-  public readonly statusCode: HttpStatus.UNAUTHORIZED;
+  public readonly statusCode: number;
+}
+
+export class UnauthorizedResponseDTO {
+  @ApiProperty({
+    description: 'Error details',
+    type: UnauthorizedErrorResponse,
+  })
+  public readonly error: UnauthorizedErrorResponse;
 }

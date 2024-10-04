@@ -19,7 +19,11 @@ import {
 
 import { PaginationOptionsDTO } from '@/shared/dtos';
 import { AuthGuard } from '@/shared/guards';
-import { RecordNotFoundDTO, UnauthorizedResponseDTO } from '@/shared/responses';
+import {
+  InvalidEntriesResponseDTO,
+  RecordNotFoundDTO,
+  UnauthorizedResponseDTO,
+} from '@/shared/responses';
 
 import {
   CreateOneStockDTO,
@@ -101,6 +105,11 @@ export class StockController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized stocks response object',
     type: UnauthorizedResponseDTO,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid entries response object',
+    type: InvalidEntriesResponseDTO,
   })
   @UseGuards(AuthGuard)
   @Get(':id')

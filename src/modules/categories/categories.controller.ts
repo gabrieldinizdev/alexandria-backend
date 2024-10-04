@@ -129,6 +129,11 @@ export class CategoryController {
     description: 'Record not found categories  response object',
     type: RecordNotFoundDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid entries response object',
+    type: InvalidEntriesResponseDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<CategoryDTO>,

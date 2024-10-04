@@ -123,6 +123,11 @@ export class DepartmentController {
     description: 'Record not found departments response object',
     type: RecordNotFoundDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid entries response object',
+    type: InvalidEntriesResponseDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<DepartmentDTO>,
