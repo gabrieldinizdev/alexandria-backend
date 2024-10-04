@@ -8,6 +8,7 @@ export class VerificationCodeDTO {
     description: 'Unique "email" in the application',
     minLength: 8,
     maxLength: 256,
+    example: 'john_doe@hotmail.com',
   })
   @MinLength(8)
   @MaxLength(100)

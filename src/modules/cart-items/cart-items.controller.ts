@@ -137,6 +137,11 @@ export class CartItemController {
     description: 'Record not found cart item  response object',
     type: RecordNotFoundDTO,
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid entries response object',
+    type: InvalidEntriesResponseDTO,
+  })
   @ApiQuery({
     name: 'select',
     type: SelectFieldsDTO<CartItemDTO>,
